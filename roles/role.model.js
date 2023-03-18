@@ -26,7 +26,10 @@ const roleSchema = new Schema(
     timestamps: true,
   }
 );
-
+const createRoleModel = (companyId) =>
+  companyId
+    ? model(ROLE_MODEL_NAME, roleSchema, `${ROLE_MODEL_NAME}s_${companyId}`)
+    : null;
 const RoleModel = model(ROLE_MODEL_NAME, roleSchema);
 
-module.exports = RoleModel;
+module.exports = { RoleModel, createRoleModel };

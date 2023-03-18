@@ -1,18 +1,22 @@
 const { createError, HttpStatus } = require("../helpers");
 const AuthMessages = require("../auth/auth.messages");
 
-const RoleModel = require("./role.model");
+const { RoleModel } = require("./role.model");
 
-async function getAllRoles() {
+async function getAllRoles(companyID) {
+  // const CompanyRoleModdel = createRoleModel(companyID);
   return RoleModel.find();
 }
 async function findRoleById(id) {
+  // const CompanyRoleModdel = createRoleModel();
   return RoleModel.findById(id);
 }
 async function findRoleByName(name) {
+  // const CompanyRoleModdel = createRoleModel();
   return RoleModel.findOne(name);
 }
 async function createRole(newRole) {
+  // const CompanyRoleModdel = createRoleModel();
   const { name } = newRole;
 
   const role = await findRoleByName({ name });
@@ -24,14 +28,18 @@ async function createRole(newRole) {
   return RoleModel.create(newRole);
 }
 async function deleteRoleById(id) {
+  // const CompanyRoleModdel = createRoleModel();
+
   return RoleModel.findByIdAndDelete(id);
 }
 async function updateRoleById(id, updateData) {
+  // const CompanyRoleModdel = createRoleModel();
   return RoleModel.findByIdAndUpdate(id, updateData, {
     new: true,
   });
 }
 async function addActionsToRoleById(id, routes) {
+  // const CompanyRoleModdel = createRoleModel();
   return RoleModel.findByIdAndUpdate(
     id,
     { $addToSet: { routes: { $each: routes } } },
@@ -41,6 +49,7 @@ async function addActionsToRoleById(id, routes) {
   );
 }
 async function removeActionsFromRoleById(id, routes) {
+  // const CompanyRoleModdel = createRoleModel();
   return RoleModel.findByIdAndUpdate(
     id,
     { $pull: { routes: { $in: routes } } }, // { fruits: { $in: [ "apples", "oranges" ] }
