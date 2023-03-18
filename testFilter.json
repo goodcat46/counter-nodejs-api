@@ -1,0 +1,22 @@
+[
+  {
+    "type": "Бар",
+    "categoty": "Пиво",
+    "price": 122
+  },
+  {
+    "type": "Бар",
+    "categoty": "Чай",
+    "price": 80
+  },
+  {
+    "type": "Кухня",
+    "categoty": "Салати",
+    "price": 321
+  },
+  {
+    "type": "Кухня",
+    "categoty": "Салати",
+    "price": 555
+  }
+]
