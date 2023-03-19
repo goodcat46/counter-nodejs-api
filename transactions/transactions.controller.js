@@ -105,7 +105,7 @@ async function deleteTransaction(req, res) {
     .status(200)
     .json({ message: TransactionMessages.CREATING_SUCCESS, data: result });
 }
-async function getAllTransaction(req, res) {
+async function getAllTransactions(req, res) {
   const { page = 1, limit = 20 } = req.query;
   const { _id: companyId } = req?.company;
 
@@ -211,7 +211,7 @@ module.exports = {
   createTransaction,
   deleteManyTrById,
   deleteTransaction,
-  getAllTransaction,
+  getAllTransactions,
   getAllTrsByCountIds,
   getAllTrsBySubCountIds,
   getById,

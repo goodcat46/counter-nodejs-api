@@ -5,7 +5,8 @@ const { CategoriesConstants } = require("../directories/categories");
 
 const {
   TRANSACTION_MODEL_NAME,
-  TransactionTypeEnum,
+  TRANSACTION_TYPE_ENUM,
+  getTransactionsCollectionName,
 } = require("./transactions.constants");
 
 // const transactionSchema = new Schema(
@@ -112,7 +113,7 @@ const createTransactionSchema = (companyId) =>
       },
       type: {
         type: String,
-        enum: TransactionTypeEnum,
+        enum: TRANSACTION_TYPE_ENUM,
       },
       countIdIn: {
         type: Schema.Types.ObjectId,
@@ -181,7 +182,7 @@ const createTransactionModel = (companyId) => {
   const Model = model(
     TRANSACTION_MODEL_NAME,
     createTransactionSchema(companyId),
-    `${TRANSACTION_MODEL_NAME}_${companyId}`
+    getTransactionsCollectionName(companyId)
   );
 
   return Model;

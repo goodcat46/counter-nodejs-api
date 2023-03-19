@@ -33,7 +33,7 @@ const tractionsMap = {
     title: "Отримати усі транзакції",
     descr:
       "Дозволяє отримати усі транзакції. Має бути захищеним та передати транзакції певної організації",
-    controller: TransactionControllers.getAll,
+    controller: TransactionControllers.getAllTransactions,
   },
 };
 

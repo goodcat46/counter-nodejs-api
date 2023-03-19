@@ -7,42 +7,27 @@ const authenticate = require("../middlewares/authenticate");
 const RoleDto = require("./role.dto");
 const { checkCompanyId } = require("../middlewares");
 
-// console.log("roles router", middlewares);
+RolesRouter.use(authenticate);
+RolesRouter.use(checkCompanyId);
 
-RolesRouter.get(
-  "/getAll",
-  // middlewares.authenticate,
-  checkCompanyId,
-  controllerWrapper(RoleControllers.getAllRoles)
-);
+RolesRouter.get("/getAll", controllerWrapper(RoleControllers.getAllRoles));
 
 RolesRouter.post(
   "/create",
-  authenticate,
-  checkCompanyId,
   validateBody(RoleDto.createRoleDto),
   controllerWrapper(RoleControllers.createRole)
 );
 
-RolesRouter.delete(
-  "/:id",
-  authenticate,
-  checkCompanyId,
-  controllerWrapper(RoleControllers.deleteRoleById)
-);
+RolesRouter.delete("/:id", controllerWrapper(RoleControllers.deleteRoleById));
 
 RolesRouter.patch(
   "/addActions/:id",
-  authenticate,
-  checkCompanyId,
   validateBody(RoleDto.updateRoleDto),
   controllerWrapper(RoleControllers.addActionsToRoleById)
 );
 
 RolesRouter.patch(
   "/removeActions/:id",
-  authenticate,
-  checkCompanyId,
   validateBody(RoleDto.updateRoleDto),
   controllerWrapper(RoleControllers.removeActionsFromRoleById)
 );

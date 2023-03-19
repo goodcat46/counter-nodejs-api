@@ -1,6 +1,10 @@
-const { transactionsActionsMap } = require("../transactions");
+const { transactionsActionsMap, tractionsMap } = require("../transactions");
 const { categoriesActionsMap } = require("../directories/categories");
 
-const apiActions = [...transactionsActionsMap, categoriesActionsMap];
-
+const apiActions = [
+  ...categoriesActionsMap,
+  ...transactionsActionsMap,
+  tractionsMap,
+];
+console.log("apiActions", apiActions);
 module.exports = { apiActions };

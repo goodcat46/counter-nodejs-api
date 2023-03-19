@@ -3,7 +3,10 @@ const { Schema, model, SchemaTypes, models, deleteModel } = require("mongoose");
 const { USER_MODEL_NAME } = require("../auth/auth.constants");
 const { COMPANY_MODEL_NAME } = require("../companies/companies.constants");
 const { ROLE_MODEL_NAME } = require("../roles/roles.constants");
-const { PERMISSION_MODEL_NAME } = require("./permissions.constants");
+const {
+  PERMISSION_MODEL_NAME,
+  PERMISSION_STATUS_ENUM,
+} = require("./permissions.constants");
 
 const permissionsMessages = require("./permissions.messages");
 
@@ -28,6 +31,11 @@ const createPermissionSchema = (companyId) =>
         ref: companyId ? `${ROLE_MODEL_NAME}s_${companyId}` : ROLE_MODEL_NAME,
         required: [true, permissionsMessages.MISSING_PARAMS(["role"])],
       },
+      status: {
+        type: String,
+        default: PERMISSION_STATUS_ENUM[0],
+        enum: PERMISSION_STATUS_ENUM,
+      },
     },
     {
       versionKey: false,
@@ -37,8 +45,8 @@ const createPermissionSchema = (companyId) =>
   );
 
 const createPermissionModel = (companyId) => {
-  console.log("mongoose.models", { models });
   if (models[PERMISSION_MODEL_NAME]) {
+    console.log("mongoose.models", { models });
     deleteModel(PERMISSION_MODEL_NAME);
   }
   const Model = model(PERMISSION_MODEL_NAME, createPermissionSchema(companyId));

@@ -11,6 +11,9 @@ const { JWT_SECRET_KEY } = process.env;
 async function findUserById(id) {
   return UserModel.findById(id);
 }
+async function findUserByEmail(email) {
+  return UserModel.find(email);
+}
 
 async function registerUser(dto) {
   const { password, email } = dto;
@@ -77,5 +80,6 @@ module.exports = {
   findOneUser,
   registerUser,
   UserCheckByToken,
+  findUserByEmail,
 };
 // 1FDK7xRFHUN8Gc1o
