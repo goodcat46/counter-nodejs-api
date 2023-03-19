@@ -1,5 +1,5 @@
-const { Schema, model, models, deleteModel } = require("mongoose");
-const { ROLE_MODEL_NAME } = require("./roles.constants");
+const { Schema, model, models } = require("mongoose");
+const { ROLE_MODEL_NAME, getRoleModelName } = require("./roles.constants");
 
 const roleSchema = new Schema(
   {
@@ -30,9 +30,8 @@ const roleSchema = new Schema(
 const createRoleModel = (companyId) => {
   if (models[ROLE_MODEL_NAME]) {
     console.log("mongoose.models", { models });
-    deleteModel(ROLE_MODEL_NAME);
   }
-  const Model = model(ROLE_MODEL_NAME, roleSchema);
+  const Model = model(getRoleModelName(companyId), roleSchema);
 
   console.log({ Model, models });
 

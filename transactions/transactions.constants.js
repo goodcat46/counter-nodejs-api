@@ -1,6 +1,7 @@
 const TRANSACTION_MODEL_NAME = "transaction";
 const getTransactionsCollectionName = (companyId) =>
   `transactions_${companyId}`;
+const getTransactionModelName = (companyId) => `transaction_${companyId}`;
 const EXPENSE = `EXPENSE`;
 const INCOME = `INCOME`;
 const TRANSFER = `TRANSFER`;
@@ -20,4 +21,5 @@ module.exports = {
   TRANSACTION_TYPE_ENUM,
   TRANSACTION_MODEL_NAME,
   getTransactionsCollectionName,
+  getTransactionModelName,
 };

@@ -2,6 +2,7 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
 
 const { AuthsRouter } = require("./auth");
 const { RolesRouter } = require("./roles");
@@ -22,10 +23,11 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
-// app.use((req, res, next) => {
-//   console.log(req);
-//   next();
-// });
+app.use((req, res, next) => {
+  console.log(req);
+  console.log("mongoose.models APP", mongoose.models);
+  next();
+});
 
 app.use(
   "/api/",
