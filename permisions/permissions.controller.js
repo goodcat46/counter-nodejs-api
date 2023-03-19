@@ -12,11 +12,10 @@ async function createPermission(req, res) {
     user,
     role,
   };
-  console.log("object", newPermission);
 
   const createdPermission = await PermissionsService.createPermission({
-    companyId,
     newPermission,
+    companyId,
   });
 
   if (!createdPermission) {
@@ -32,17 +31,22 @@ async function createPermission(req, res) {
     data: createdPermission,
   });
 }
-async function getAllPermissions(_req, res) {
-  const allPermissions = await PermissionsService.getAllPermissions();
+async function getAllPermissions(req, res) {
+  const { _id: companyId } = req?.company;
+
+  const allPermissions = await PermissionsService.getAllPermissions({
+    companyId,
+  });
 
   if (allPermissions.length === 0) {
+    console.log(permissionsMessages.FOUND_RESULT_ERROR(allPermissions.length));
     throw createError({
       status: HttpStatus.NOT_FOUND,
       message: permissionsMessages.FOUND_RESULT_ERROR(allPermissions.length),
     });
   }
 
-  res.status(HttpStatus.CREATED).json({
+  res.status(HttpStatus.OK).json({
     message: permissionsMessages.FOUND_RESULT_SUCCESS(allPermissions.length),
     data: allPermissions,
   });

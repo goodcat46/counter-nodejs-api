@@ -6,17 +6,17 @@ const { validateBody, checkCompanyId } = require("../middlewares");
 // const authenticate = require("../middlewares/authenticate");
 const PermissionDto = require("./permission.dto");
 
+PermissionsRouter.use(checkCompanyId);
+
 PermissionsRouter.get(
   "/getAll",
   // authenticate,
-  checkCompanyId,
-  controllerWrapper(PermissionsControllers.createPermission)
+  controllerWrapper(PermissionsControllers.getAllPermissions)
 );
 
 PermissionsRouter.post(
   "/create",
   // authenticate,
-  checkCompanyId,
   validateBody(PermissionDto.createPermissionDto),
   controllerWrapper(PermissionsControllers.createPermission)
 );

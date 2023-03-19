@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const createError = require("../helpers/createError");
 const CompaniesService = require("../companies/companies.service");
 const CompaniesMessages = require("../companies/companies.messages");
@@ -7,13 +8,19 @@ async function checkCompanyId(req, res, next) {
   try {
     const [companyId] = req.baseUrl.replace("/api/", "").split("/");
 
-    const company = await CompaniesService.findCompanyById(companyId);
-    console.log(company);
+    if (!mongoose.isValidObjectId(companyId)) {
+      throw createError({
+        status: HttpStatus.NOT_FOUND,
+        message: CompaniesMessages.ID_IS_NOT_VALID,
+      });
+    }
+
+    const company = await CompaniesService.findCompanyById({ id: companyId });
 
     if (!company) {
       throw createError({
         status: HttpStatus.NOT_FOUND,
-        message: CompaniesMessages.FOUND_RESULT_ERROR(0),
+        message: CompaniesMessages.NOT_FOUND,
       });
     }
 
@@ -25,7 +32,7 @@ async function checkCompanyId(req, res, next) {
     if (!error.status) {
       console.log(error);
       error.status = 401;
-      error.message = "Company not found";
+      error.message = "checkCompanyId error";
     }
 
     next(error);

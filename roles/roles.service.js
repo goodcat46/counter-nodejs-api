@@ -1,65 +1,65 @@
 const { createError, HttpStatus } = require("../helpers");
 const AuthMessages = require("../auth/auth.messages");
 
-const { RoleModel } = require("./role.model");
+const createRoleModel = require("./role.model");
 
-async function getAllRoles(companyID) {
-  // const CompanyRoleModdel = createRoleModel(companyID);
+async function getAllRoles({ companyID }) {
+  const RoleModel = createRoleModel(companyID);
   return RoleModel.find();
 }
-async function findRoleById(id) {
-  // const CompanyRoleModdel = createRoleModel();
+async function findRoleById({ id, companyID }) {
+  const RoleModel = createRoleModel();
   return RoleModel.findById(id);
 }
-async function findRoleByName(name) {
-  // const CompanyRoleModdel = createRoleModel();
+async function findRoleByName({ name, companyID }) {
+  const RoleModel = createRoleModel(companyID);
   return RoleModel.findOne(name);
 }
-async function createRole(newRole) {
-  // const CompanyRoleModdel = createRoleModel();
-  const { name } = newRole;
+async function createRole({ newData, companyID }) {
+  const RoleModel = createRoleModel(companyID);
+  const { name } = newData;
 
-  const role = await findRoleByName({ name });
+  const role = await findRoleByName({ name, companyID });
 
   if (role) {
     throw createError({ status: 409, message: "Role already exist" });
   }
 
-  return RoleModel.create(newRole);
+  return RoleModel.create(newData);
 }
-async function deleteRoleById(id) {
-  // const CompanyRoleModdel = createRoleModel();
+async function deleteRoleById({ id, companyID }) {
+  const RoleModel = createRoleModel(companyID);
 
   return RoleModel.findByIdAndDelete(id);
 }
-async function updateRoleById(id, updateData) {
-  // const CompanyRoleModdel = createRoleModel();
+async function updateRoleById({ id, updateData, companyID }) {
+  const RoleModel = createRoleModel(companyID);
   return RoleModel.findByIdAndUpdate(id, updateData, {
     new: true,
   });
 }
-async function addActionsToRoleById(id, routes) {
-  // const CompanyRoleModdel = createRoleModel();
+async function addActionsToRoleById({ id, actions, companyID }) {
+  const RoleModel = createRoleModel(companyID);
   return RoleModel.findByIdAndUpdate(
     id,
-    { $addToSet: { routes: { $each: routes } } },
+    { $addToSet: { actions: { $each: actions } } },
     {
       new: true,
     }
   );
 }
-async function removeActionsFromRoleById(id, routes) {
-  // const CompanyRoleModdel = createRoleModel();
+async function removeActionsFromRoleById({ id, actions, companyID }) {
+  const RoleModel = createRoleModel(companyID);
   return RoleModel.findByIdAndUpdate(
     id,
-    { $pull: { routes: { $in: routes } } }, // { fruits: { $in: [ "apples", "oranges" ] }
+    { $pull: { actions: { $in: actions } } }, // { fruits: { $in: [ "apples", "oranges" ] }
     {
       new: true,
     }
   );
 }
-async function UserCheckByRole({ role, actionName, error }) {
-  const userRole = await findRoleByName(role);
+async function UserCheckByRole({ roleName, actionName, error, companyID }) {
+  const userRole = await findRoleByName({ name: roleName, companyID });
 
   if (!userRole.actions.includes(actionName)) {
     throw createError({

@@ -5,6 +5,8 @@ const FOUND_RESULT_SUCCESS = (amount) => `Companies amount found: ${amount}`;
 const FOUND_RESULT_ERROR = (amount) => `Companies amount found: ${amount}`;
 const OWNER_IS_REQUIRED = "Company owner is required";
 const ALREADY_EXIST = "Company already exist";
+const NOT_FOUND = "Company not found";
+const ID_IS_NOT_VALID = "Company ID is not valid";
 
 module.exports = {
   NAME_IS_REQUIRED,
@@ -14,4 +16,6 @@ module.exports = {
   FOUND_RESULT_ERROR,
   OWNER_IS_REQUIRED,
   ALREADY_EXIST,
+  NOT_FOUND,
+  ID_IS_NOT_VALID,
 };

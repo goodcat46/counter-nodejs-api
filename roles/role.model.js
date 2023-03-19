@@ -5,7 +5,7 @@ const roleSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, "Role name is required"],
       unique: true,
     },
     actions: {
@@ -29,7 +29,6 @@ const roleSchema = new Schema(
 const createRoleModel = (companyId) =>
   companyId
     ? model(ROLE_MODEL_NAME, roleSchema, `${ROLE_MODEL_NAME}s_${companyId}`)
-    : null;
-const RoleModel = model(ROLE_MODEL_NAME, roleSchema);
+    : model(ROLE_MODEL_NAME, roleSchema);
 
-module.exports = { RoleModel, createRoleModel };
+module.exports = createRoleModel;

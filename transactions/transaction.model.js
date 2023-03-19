@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, models, deleteModel } = require("mongoose");
 const { USER_MODEL_NAME } = require("../auth/auth.constants");
 const { CountsConstants } = require("../directories/counts");
 const { CategoriesConstants } = require("../directories/categories");
@@ -11,13 +11,16 @@ const {
 // const transactionSchema = new Schema(
 //   {
 //     athor: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
+//       ref: USER_MODEL_NAME,
 //     },
-//     creator: {
-//       type: String,
+//     editor: {
+//       type: Schema.Types.ObjectId,
+//       ref: USER_MODEL_NAME,
 //     },
 //     auditor: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
+//       ref: USER_MODEL_NAME,
 //     },
 //     transactionDate: {
 //       type: Date,
@@ -25,43 +28,50 @@ const {
 //     },
 //     type: {
 //       type: String,
-//       enum: TransactionsConstants.TransactionsTypeEnum,
+//       enum: TransactionTypeEnum,
 //     },
 //     countIdIn: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
+//       ref: CountsConstants.COUNT_MODEL_NAME,
 //     },
 //     subCountIdIn: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
+//       ref: CountsConstants.COUNT_MODEL_NAME,
 //     },
 //     countIdOut: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
+//       ref: CountsConstants.COUNT_MODEL_NAME,
 //     },
 //     subCountIdOut: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
+//       ref: CountsConstants.COUNT_MODEL_NAME,
 //     },
 //     categoryId: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
+//       ref: CategoriesConstants.CATEGORY_MODEL_NAME,
 //     },
 //     subCategoryId: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
+//       ref: CategoriesConstants.CATEGORY_MODEL_NAME,
+//     },
+//     amount: {
+//       type: Number,
+//       // required: [true, `Amount is required`],
 //     },
 //     document: {
 //       type: String,
 //     },
 //     project: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
 //     },
 //     contractor: {
-//       type: String,
-//     },
-//     amount: {
-//       type: Number,
+//       type: Schema.Types.ObjectId,
 //     },
 //     status: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
 //     },
 //     mark: {
-//       type: String,
+//       type: Schema.Types.ObjectId,
 //     },
 //     tags: {
 //       type: [
@@ -81,99 +91,100 @@ const {
 //   }
 // );
 
-// const TransactionModel = model("transaction", transactionSchema);
-// module.exports = TransactionModel;
-
-// const CreateTransactionModel = (copanyId) =>
-//   model("transaction", transactionSchema, `transactions_${copanyId}`);
-// const TransactionModel_ = CreateTransactionModel("021542");
-
-const transactionSchema = new Schema(
-  {
-    athor: {
-      type: Schema.Types.ObjectId,
-      ref: USER_MODEL_NAME,
+const createTransactionSchema = (companyId) =>
+  new Schema(
+    {
+      athor: {
+        type: Schema.Types.ObjectId,
+        ref: USER_MODEL_NAME,
+      },
+      editor: {
+        type: Schema.Types.ObjectId,
+        ref: USER_MODEL_NAME,
+      },
+      auditor: {
+        type: Schema.Types.ObjectId,
+        ref: USER_MODEL_NAME,
+      },
+      transactionDate: {
+        type: Date,
+        default: new Date(),
+      },
+      type: {
+        type: String,
+        enum: TransactionTypeEnum,
+      },
+      countIdIn: {
+        type: Schema.Types.ObjectId,
+        ref: CountsConstants.COUNT_MODEL_NAME,
+      },
+      subCountIdIn: {
+        type: Schema.Types.ObjectId,
+        ref: CountsConstants.COUNT_MODEL_NAME,
+      },
+      countIdOut: {
+        type: Schema.Types.ObjectId,
+        ref: CountsConstants.COUNT_MODEL_NAME,
+      },
+      subCountIdOut: {
+        type: Schema.Types.ObjectId,
+        ref: CountsConstants.COUNT_MODEL_NAME,
+      },
+      categoryId: {
+        type: Schema.Types.ObjectId,
+        ref: CategoriesConstants.CATEGORY_MODEL_NAME,
+      },
+      subCategoryId: {
+        type: Schema.Types.ObjectId,
+        ref: CategoriesConstants.CATEGORY_MODEL_NAME,
+      },
+      amount: {
+        type: Number,
+        // required: [true, `Amount is required`],
+      },
+      document: {
+        type: String,
+      },
+      project: {
+        type: Schema.Types.ObjectId,
+      },
+      contractor: {
+        type: Schema.Types.ObjectId,
+      },
+      status: {
+        type: Schema.Types.ObjectId,
+      },
+      mark: {
+        type: Schema.Types.ObjectId,
+      },
+      tags: {
+        type: [
+          {
+            type: String,
+          },
+        ],
+        eachPath: true,
+      },
+      comment: {
+        type: String,
+      },
     },
-    editor: {
-      type: Schema.Types.ObjectId,
-      ref: USER_MODEL_NAME,
-    },
-    auditor: {
-      type: Schema.Types.ObjectId,
-      ref: USER_MODEL_NAME,
-    },
-    transactionDate: {
-      type: Date,
-      default: new Date(),
-    },
-    type: {
-      type: String,
-      enum: TransactionTypeEnum,
-    },
-    countIdIn: {
-      type: Schema.Types.ObjectId,
-      ref: CountsConstants.COUNT_MODEL_NAME,
-    },
-    subCountIdIn: {
-      type: Schema.Types.ObjectId,
-      ref: CountsConstants.COUNT_MODEL_NAME,
-    },
-    countIdOut: {
-      type: Schema.Types.ObjectId,
-      ref: CountsConstants.COUNT_MODEL_NAME,
-    },
-    subCountIdOut: {
-      type: Schema.Types.ObjectId,
-      ref: CountsConstants.COUNT_MODEL_NAME,
-    },
-    categoryId: {
-      type: Schema.Types.ObjectId,
-      ref: CategoriesConstants.CATEGORY_MODEL_NAME,
-    },
-    subCategoryId: {
-      type: Schema.Types.ObjectId,
-      ref: CategoriesConstants.CATEGORY_MODEL_NAME,
-    },
-    amount: {
-      type: Number,
-      // required: [true, `Amount is required`],
-    },
-    document: {
-      type: String,
-    },
-    project: {
-      type: Schema.Types.ObjectId,
-    },
-    contractor: {
-      type: Schema.Types.ObjectId,
-    },
-    status: {
-      type: Schema.Types.ObjectId,
-    },
-    mark: {
-      type: Schema.Types.ObjectId,
-    },
-    tags: {
-      type: [
-        {
-          type: String,
-        },
-      ],
-      eachPath: true,
-    },
-    comment: {
-      type: String,
-    },
-  },
-  {
-    versionKey: false,
-    timestamps: true,
+    {
+      versionKey: false,
+      timestamps: true,
+    }
+  );
+const createTransactionModel = (companyId) => {
+  if (models[TRANSACTION_MODEL_NAME]) {
+    deleteModel(TRANSACTION_MODEL_NAME);
   }
-);
-const TransactionModel = model(
-  TRANSACTION_MODEL_NAME,
-  transactionSchema,
-  `transactions_32dfr1b3d5f1gb3d2g`
-);
+  const Model = model(
+    TRANSACTION_MODEL_NAME,
+    createTransactionSchema(companyId),
+    `${TRANSACTION_MODEL_NAME}_${companyId}`
+  );
 
-module.exports = TransactionModel;
+  return Model;
+};
+
+module.exports = { createTransactionModel };

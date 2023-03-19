@@ -1,6 +1,6 @@
 const express = require("express");
 
-const TransactionControllers = require("./transactionControllers");
+const TransactionControllers = require("./transactions.controller");
 const TransactionsRouter = express.Router();
 const TransactionDto = require("./transaction.dto");
 // const validateBody = require("../middlewares/validateBody");

@@ -4,15 +4,16 @@ const { createError, HttpStatus } = require("../helpers");
 const { apiActions } = require("./actionsNames.map");
 
 async function createRole(req, res) {
-  const { name, routes, description } = req.body;
+  const { name, actions, descr } = req.body;
+  const { _id: companyID } = req.company;
 
-  const newRole = {
+  const newData = {
     name,
-    routes,
-    description,
+    actions,
+    descr,
   };
 
-  const createdRole = await RolesService.createRole(newRole);
+  const createdRole = await RolesService.createRole({ newData, companyID });
 
   if (!createdRole) {
     throw createError({
@@ -28,8 +29,9 @@ async function createRole(req, res) {
 }
 async function deleteRoleById(req, res) {
   const { id } = req.params;
+  const { _id: companyID } = req.company;
 
-  const deletedDoc = await RolesService.deleteRoleById(id);
+  const deletedDoc = await RolesService.deleteRoleById({ id, companyID });
 
   if (!deletedDoc) {
     throw createError({
@@ -44,10 +46,15 @@ async function deleteRoleById(req, res) {
   });
 }
 async function addActionsToRoleById(req, res) {
-  const { routes } = req.body;
+  const { actions } = req.body;
   const { id } = req.params;
+  const { _id: companyID } = req.company;
 
-  const updatedDoc = await RolesService.addActionsToRoleById(id, routes);
+  const updatedDoc = await RolesService.addActionsToRoleById({
+    id,
+    actions,
+    companyID,
+  });
 
   if (!updatedDoc) {
     throw createError({
@@ -63,10 +70,15 @@ async function addActionsToRoleById(req, res) {
   });
 }
 async function removeActionsFromRoleById(req, res) {
-  const { routes } = req.body;
+  const { actions } = req.body;
   const { id } = req.params;
+  const { _id: companyID } = req.company;
 
-  const updatedDoc = await RolesService.removeActionsFromRoleById(id, routes);
+  const updatedDoc = await RolesService.removeActionsFromRoleById({
+    id,
+    actions,
+    companyID,
+  });
 
   if (!updatedDoc) {
     throw createError({
@@ -80,14 +92,16 @@ async function removeActionsFromRoleById(req, res) {
     data: updatedDoc,
   });
 }
-async function getAllRoles(_req, res) {
-  const allRoles = await RolesService.getAllRoles();
+async function getAllRoles(req, res) {
+  const { _id: companyID } = req.company;
+
+  const allRoles = await RolesService.getAllRoles({ companyID });
 
   if (allRoles.length === 0) {
     throw createError({ status: HttpStatus.NOT_FOUND });
   }
 
-  res.status(HttpStatus.CREATED).json({
+  res.status(HttpStatus.OK).json({
     message: RolesMessages.FOUND_ROLES,
     data: allRoles,
   });
