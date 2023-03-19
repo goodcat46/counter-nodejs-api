@@ -7,13 +7,19 @@ const TransactionDto = require("./transaction.dto");
 // const authenticate = require("../middlewares/authenticate");
 // const UserCheck = require("../middlewares/UserCheck.middleware");
 const { controllerWrapper } = require("../helpers");
-const { authenticate, validateBody } = require("../middlewares");
+const {
+  authenticate,
+  validateBody,
+  checkCompanyId,
+} = require("../middlewares");
+
+TransactionsRouter.use(checkCompanyId);
 
 TransactionsRouter.get(
   "/getAll",
   // authenticate,
   // UserCheck({ actionName: TransactionControllers.getAll.name }),
-  controllerWrapper(TransactionControllers.getAll)
+  controllerWrapper(TransactionControllers.getAllTransaction)
 );
 TransactionsRouter.get(
   "/getAll/byCountIds",
@@ -43,13 +49,13 @@ TransactionsRouter.post(
   "/createMany",
   // authenticate,
   validateBody(TransactionDto.addManyTransactionsDto),
-  controllerWrapper(TransactionControllers.createManyTransactions)
+  controllerWrapper(TransactionControllers.createManyTrs)
 );
 
 TransactionsRouter.delete(
   "/delete/:id",
   // authenticate,
-  controllerWrapper(TransactionControllers.deleteTransactionById)
+  controllerWrapper(TransactionControllers.deleteTransaction)
 );
 TransactionsRouter.delete(
   "/deleteManyById",

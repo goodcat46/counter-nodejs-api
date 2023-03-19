@@ -22,10 +22,10 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
-app.use((req, res, next) => {
-  console.log(req);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(req);
+//   next();
+// });
 
 // app.use(
 //   "/api/",
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 // );
 app.use("/api/users", AuthsRouter);
 app.use("/api/roles", RolesRouter);
-app.use("/api/transactions", TransactionsRouter);
+app.use("/api/:companyId/transactions", TransactionsRouter);
 app.use("/api/companies", CompaniesRouter);
 app.use("/api/directories/counts", CountsModule.CountsRouter);
 app.use("/api/directories/categories", CategoriesModule.CategoriesRouter);
