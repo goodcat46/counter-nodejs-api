@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const emailRegexp = require("../helpers/validateEmail");
-const { userRolesEnum } = require("./auth.constants");
 
 const userSchema = new Schema(
   {
@@ -10,17 +9,12 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    password: {
+    passwordHash: {
       type: String,
       minlength: 8,
       required: [true, "Set password for user"],
     },
-    role: {
-      type: String,
-      enum: userRolesEnum,
-      default: "USER",
-    },
-    token: {
+    accessToken: {
       type: String,
       default: "",
     },

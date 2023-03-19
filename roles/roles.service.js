@@ -13,14 +13,15 @@ async function findRoleById({ id, companyID }) {
 }
 async function findRoleByName({ name, companyID }) {
   const RoleModel = createRoleModel(companyID);
-  return RoleModel.findOne(name);
+
+  return RoleModel.findOne({ name });
 }
 async function createRole({ newData, companyID }) {
   const RoleModel = createRoleModel(companyID);
   const { name } = newData;
 
   const role = await findRoleByName({ name, companyID });
-
+  console.log("findRoleByName", role);
   if (role) {
     throw createError({ status: 409, message: "Role already exist" });
   }

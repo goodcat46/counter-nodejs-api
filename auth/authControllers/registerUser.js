@@ -1,20 +1,20 @@
-const UsersService = require("../auth.service");
-const sendSgEmail = require("../../helpers/sendSgEmail");
+const AuthService = require("../auth.service");
+// const sendSgEmail = require("../../helpers/sendSgEmail");
 
-const { BASE_URL } = process.env;
+// const { BASE_URL } = process.env;
 
 async function registerUser(req, res) {
-  const { password, email, role } = req.body;
+  const { password, email } = req.body;
 
-  const result = await UsersService.registerUser({ password, email, role });
+  const result = await AuthService.registerUser({ password, email });
 
-  const message = {
-    to: email,
-    subject: "Email verification",
-    html: `<a href="${BASE_URL}/api/users/verify/${result.verificationToken}">Click to verify your email</a>`,
-  };
+  // const message = {
+  //   to: email,
+  //   subject: "Email verification",
+  //   html: `<a href="${BASE_URL}/api/users/verify/${result.verificationToken}">Click to verify your email</a>`,
+  // };
 
-  await sendSgEmail(message);
+  // await sendSgEmail(message);
 
   res.status(201).json({
     message: "User created successfully",

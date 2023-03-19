@@ -9,16 +9,28 @@ const { HttpStatus } = require("../helpers");
 const { JWT_SECRET_KEY } = process.env;
 
 async function findUserById(id) {
-  return UserModel.findById(id);
+  const user = UserModel.findById(id);
+  if (!user) {
+    console.log({ message: "User not found" });
+    throw createError({ status: 401, message: "Email or password is wrong" });
+  }
+
+  return user;
 }
 async function findUserByEmail(email) {
-  return UserModel.find(email);
+  const user = UserModel.find({ email });
+  if (!user) {
+    console.log({ message: "User not found" });
+    throw createError({ status: 401, message: "Email or password is wrong" });
+  }
+
+  return user;
 }
 
 async function registerUser(dto) {
   const { password, email } = dto;
 
-  const user = await findOneUser({ email });
+  const user = await findUserByEmail(email);
 
   if (user) {
     throw createError({ status: 409, message: "Email in use" });
@@ -29,20 +41,16 @@ async function registerUser(dto) {
   const verificationToken = randomUUID();
 
   return UserModel.create({
-    password: hashPassword,
+    passwordHash: hashPassword,
     email,
     verificationToken,
   });
 }
 
-async function findUserByIdAndUpdate(id, updateData) {
+async function findUserByIdAndUpdate({ id, updateData }) {
   return UserModel.findByIdAndUpdate(id, updateData, {
     new: true,
   });
-}
-
-async function findOneUser(dto) {
-  return UserModel.findOne(dto);
 }
 
 async function UserCheckByToken(req, _res, next) {
@@ -77,7 +85,6 @@ async function UserCheckByToken(req, _res, next) {
 module.exports = {
   findUserById,
   findUserByIdAndUpdate,
-  findOneUser,
   registerUser,
   UserCheckByToken,
   findUserByEmail,

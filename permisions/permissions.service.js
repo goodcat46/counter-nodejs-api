@@ -5,7 +5,9 @@ const CreateError = require("../helpers/createError");
 
 async function getAllPermissions({ companyId }) {
   const Model = createPermissionModel(companyId);
-  return Model.find().populate();
+  return Model.find({ company: companyId })
+    .populate({ path: "user" })
+    .populate({ path: "role" });
 }
 async function createPermission({ newPermission, companyId }) {
   const Model = createPermissionModel(companyId);

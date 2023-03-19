@@ -1,24 +1,23 @@
-const bcrypt = require("bcryptjs");
+// const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const AuthService = require("../auth.service");
 // const cookieParser = require("cookie-parser");
 
 const { createError } = require("../../helpers");
-// const User = require("../../models/users");
 
 const { JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = process.env;
 
 async function refreshToken(req, res) {
-  const { id } = req.user;
+  const { _id } = req.user;
 
-  const user = await AuthService.findUserById(id);
+  const user = await AuthService.findUserById(_id);
 
   if (!user) {
     throw createError({ status: 401, message: "Not authorized" });
   }
 
   const payload = {
-    id: user.id,
+    id: user._id,
   };
 
   const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "10d" });
@@ -26,7 +25,7 @@ async function refreshToken(req, res) {
     expiresIn: "30d",
   });
 
-  await AuthService.findUserByIdAndUpdate(user.id, {
+  await AuthService.findUserByIdAndUpdate(user._id, {
     token,
     refreshToken,
   });
@@ -36,7 +35,11 @@ async function refreshToken(req, res) {
     // httpOnly: true,
   });
 
-  res.json({ token });
+  res.status(200).json({
+    email: user?.email,
+    _id,
+    token,
+  });
 }
 
 module.exports = refreshToken;

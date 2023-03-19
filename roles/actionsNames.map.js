@@ -6,5 +6,5 @@ const apiActions = [
   ...transactionsActionsMap,
   tractionsMap,
 ];
-console.log("apiActions", apiActions);
+// console.log("apiActions", apiActions);
 module.exports = { apiActions };

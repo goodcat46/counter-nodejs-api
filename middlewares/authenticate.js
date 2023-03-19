@@ -11,7 +11,7 @@ async function authenticate(req, _res, next) {
     const { authorization } = req.headers;
 
     const [bearer, token] = authorization.split(" ");
-
+    // console.log("authorization", { bearer, token });
     if (bearer !== "Bearer") {
       throw createError({ status: 401, message: "Not authorized" });
     }
@@ -20,7 +20,8 @@ async function authenticate(req, _res, next) {
 
     const user = await AuthServise.findUserById(id);
 
-    if (!user || !user.token || user.token !== token) {
+    if (!user || !user.accessToken || user.accessToken !== token) {
+      console.log({ message: "User not found" });
       throw createError({ status: 401, message: "Not authorized" });
     }
     req.user = user;

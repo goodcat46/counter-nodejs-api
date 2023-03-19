@@ -5,11 +5,13 @@ const logoutUser = require("./logoutUser");
 const verify = require("./verify");
 const resendVerificationEmail = require("./resendVerificationEmail");
 const refreshToken = require("./refreshToken");
+const getCurrentUserInfo = require("./getCurrentUserInfo");
 
 module.exports = {
   registerUser,
   loginUser,
   getCurrentUser,
+  getCurrentUserInfo,
   logoutUser,
   verify,
   resendVerificationEmail,

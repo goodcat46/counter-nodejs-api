@@ -40,7 +40,6 @@ const createPermissionSchema = (companyId) =>
     {
       versionKey: false,
       timestamps: true,
-      strict: false,
     }
   );
 

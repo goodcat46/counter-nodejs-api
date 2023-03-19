@@ -24,6 +24,11 @@ AuthsRouter.get(
   middlewares.authenticate,
   controllerWrapper(controllers.getCurrentUser)
 );
+AuthsRouter.get(
+  "/currentUserInfo",
+  middlewares.authenticate,
+  controllerWrapper(controllers.getCurrentUserInfo)
+);
 
 AuthsRouter.post(
   "/logout",
@@ -38,14 +43,14 @@ AuthsRouter.post(
 );
 
 AuthsRouter.get(
-  "/refreshToken",
-  middlewares.authenticateRefreshToken,
-  controllerWrapper(controllers.refreshToken)
+  "/verify/:verificationToken",
+  controllerWrapper(controllers.verify)
 );
 
 AuthsRouter.get(
-  "/verify/:verificationToken",
-  controllerWrapper(controllers.verify)
+  "/getRefreshToken",
+  middlewares.authenticateRefreshToken,
+  controllerWrapper(controllers.refreshToken)
 );
 
 module.exports = AuthsRouter;

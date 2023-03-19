@@ -1,9 +1,9 @@
 async function getCurrentUser(req, res) {
-  const { role, email } = req.user;
+  const { _id, email } = req.user;
 
   res.json({
     email,
-    role,
+    _id,
   });
 }
 

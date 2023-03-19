@@ -27,20 +27,24 @@ app.use(cookieParser());
 //   next();
 // });
 
-// app.use(
-//   "/api/",
-//   express.Router().get("/", (req, res) => {
-//     console.log(req);
-//     res.status(200).json({ message: "Hello" });
-//   })
-// );
-app.use("/api/users", AuthsRouter);
-app.use("/api/roles", RolesRouter);
+app.use(
+  "/api/",
+  express.Router().get("/", (req, res) => {
+    console.log(req.params);
+    res.status(200).json({ message: "Hello" });
+  })
+);
+app.use("/api/auth", AuthsRouter);
+app.use("/api/:companyId/roles", RolesRouter);
 app.use("/api/:companyId/transactions", TransactionsRouter);
-app.use("/api/companies", CompaniesRouter);
-app.use("/api/directories/counts", CountsModule.CountsRouter);
-app.use("/api/directories/categories", CategoriesModule.CategoriesRouter);
+app.use("/api/:companyId/companies", CompaniesRouter);
+app.use("/api/:companyId/directories/counts", CountsModule.CountsRouter);
+app.use(
+  "/api/:companyId/directories/categories",
+  CategoriesModule.CategoriesRouter
+);
 app.use("/api/:companyId/permissions", PermissionsRouter);
+
 app.use("/api/:companyId/test", function (req, res, next) {
   console.log("Request Id:", req.params);
   res.status(200).json({
