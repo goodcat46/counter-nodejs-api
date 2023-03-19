@@ -6,7 +6,7 @@ const AuthServise = require("../auth/auth.service");
 
 const { JWT_SECRET_KEY } = process.env;
 
-async function authenticate(req, res, next) {
+async function authenticate(req, _res, next) {
   try {
     const { authorization } = req.headers;
 

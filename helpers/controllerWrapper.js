@@ -1,11 +1,18 @@
+const CreateError = require("./createError");
+
 function controllerWrapper(controller) {
   const fn = async (req, res, next) => {
     try {
-      await controller(req, res);
+      if (typeof controller === "function") {
+        await controller(req, res, next);
+        return;
+      }
+      CreateError({ status: 500, message: "Controller error" });
     } catch (error) {
       next(error);
     }
   };
+
   return fn;
 }
 

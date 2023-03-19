@@ -1,4 +1,5 @@
 const validateBody = require("./validateBody");
+const checkCompanyId = require("./checkCompanyId.middleware");
 const UserCheck = require("./UserCheck.middleware");
 const authenticate = require("./authenticate");
 const authenticateRefreshToken = require("./authenticateRefreshToken");
@@ -10,4 +11,5 @@ module.exports = {
   authenticateRefreshToken,
   upload,
   authenticate,
+  checkCompanyId,
 };

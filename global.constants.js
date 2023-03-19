@@ -1,0 +1,5 @@
+const COMPANY_ID_DEFAULT = "000000000000000000000000";
+
+module.exports = {
+  COMPANY_ID_DEFAULT,
+};

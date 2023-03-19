@@ -37,6 +37,4 @@ const tractionsMap = {
   },
 };
 
-console.log(tractionsMap);
-
 module.exports = transactionsActionsMap;
