@@ -1,5 +1,8 @@
 const { Schema, model, models } = require("mongoose");
-const { ROLE_MODEL_NAME, getRoleModelName } = require("./roles.constants");
+const {
+  getRoleModelName,
+  getRoleCollectionName,
+} = require("./roles.constants");
 
 const roleSchema = new Schema(
   {
@@ -12,7 +15,7 @@ const roleSchema = new Schema(
       type: [
         {
           type: String,
-          unique: true,
+          // unique: true,
         },
       ],
       default: [],
@@ -28,13 +31,15 @@ const roleSchema = new Schema(
 );
 
 const createRoleModel = (companyId) => {
-  if (models[ROLE_MODEL_NAME]) {
-    console.log("mongoose.models", { models });
+  if (models[getRoleModelName(companyId)]) {
+    return models[getRoleModelName(companyId)];
   }
-  const Model = model(getRoleModelName(companyId), roleSchema);
-
-  console.log({ Model, models });
+  const Model = model(
+    getRoleModelName(companyId),
+    roleSchema,
+    getRoleCollectionName(companyId)
+  );
 
   return Model;
 };
-module.exports = createRoleModel;
+module.exports = { createRoleModel };

@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const emailRegexp = require("../helpers/validateEmail");
+const { AUTH_MODEL_NAME, AUTH_COLLECTION_NAME } = require("./auth.constants");
 
 const userSchema = new Schema(
   {
@@ -37,6 +38,6 @@ const userSchema = new Schema(
   }
 );
 
-const UserModel = model("user", userSchema);
+const UserModel = model(AUTH_MODEL_NAME, userSchema, AUTH_COLLECTION_NAME);
 
 module.exports = UserModel;

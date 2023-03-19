@@ -2,14 +2,16 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const mongoose = require("mongoose");
 
-const { AuthsRouter } = require("./auth");
-const { RolesRouter } = require("./roles");
-const { TransactionsRouter } = require("./transactions");
+const { AuthRouter } = require("./auth");
+const { RolesRouter, RoleModel } = require("./roles");
+const { TransactionsRouter, TransactionModel } = require("./transactions");
 const { CompaniesRouter } = require("./companies");
 const { CountsModule, CategoriesModule } = require("./directories");
-const { PermissionsRouter } = require("./permisions");
+const { PermissionsRouter, PermissionModel } = require("./permisions");
+const {
+  modelsInicializer,
+} = require("./middlewares/inicializeModels.middleware");
 
 // console.log(CountsModule);
 
@@ -23,20 +25,22 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
-app.use((req, res, next) => {
-  console.log(req);
-  console.log("mongoose.models APP", mongoose.models);
-  next();
-});
-
 app.use(
-  "/api/",
-  express.Router().get("/", (req, res) => {
-    console.log(req.params);
-    res.status(200).json({ message: "Hello" });
-  })
+  modelsInicializer([
+    TransactionModel.createTransactionModel,
+    RoleModel.createRoleModel,
+    PermissionModel.createPermissionModel,
+  ])
 );
-app.use("/api/auth", AuthsRouter);
+
+// app.use(
+//   "/api/",
+//   express.Router().get("/", (req, res) => {
+//     console.log(req.params);
+//     res.status(200).json({ message: "Hello" });
+//   })
+// );
+app.use("/api/auth", AuthRouter);
 app.use("/api/:companyId/roles", RolesRouter);
 app.use("/api/:companyId/transactions", TransactionsRouter);
 app.use("/api/:companyId/companies", CompaniesRouter);

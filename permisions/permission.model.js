@@ -1,11 +1,9 @@
 const { Schema, model, SchemaTypes, models } = require("mongoose");
 
-const { USER_MODEL_NAME } = require("../auth/auth.constants");
+const { AUTH_MODEL_NAME } = require("../auth/auth.constants");
 const { COMPANY_MODEL_NAME } = require("../companies/companies.constants");
-const {
-  ROLE_MODEL_NAME,
-  getRoleModelName,
-} = require("../roles/roles.constants");
+const { getRoleModelName } = require("../roles/roles.constants");
+
 const {
   PERMISSION_STATUS_ENUM,
   getPermissionModelName,
@@ -26,13 +24,13 @@ const createPermissionSchema = (companyId) =>
       user: {
         type: SchemaTypes.ObjectId,
         default: null,
-        ref: USER_MODEL_NAME,
+        ref: AUTH_MODEL_NAME,
         required: [true, permissionsMessages.MISSING_PARAMS(["user"])],
       },
       role: {
         type: SchemaTypes.ObjectId,
         default: null,
-        ref: companyId ? getRoleModelName(companyId) : ROLE_MODEL_NAME,
+        ref: companyId && getRoleModelName(companyId),
         required: [true, permissionsMessages.MISSING_PARAMS(["role"])],
       },
       status: {
@@ -49,10 +47,6 @@ const createPermissionSchema = (companyId) =>
 
 const createPermissionModel = (companyId) => {
   if (models[getPermissionModelName(companyId)]) {
-    console.log({
-      currentModel: models[getPermissionModelName(companyId)],
-      models,
-    });
     return models[getPermissionModelName(companyId)];
   }
   const Model = model(
@@ -60,8 +54,6 @@ const createPermissionModel = (companyId) => {
     createPermissionSchema(companyId),
     PERMISSIONS_COLLECTION_NAME
   );
-
-  console.log({ newModel: Model, models });
 
   return Model;
 };

@@ -1,5 +1,5 @@
 const { Schema, model, models } = require("mongoose");
-const { USER_MODEL_NAME } = require("../auth/auth.constants");
+const { AUTH_MODEL_NAME } = require("../auth/auth.constants");
 const { CountsConstants } = require("../directories/counts");
 const { CategoriesConstants } = require("../directories/categories");
 
@@ -14,15 +14,15 @@ const createTransactionSchema = (companyId) =>
     {
       athor: {
         type: Schema.Types.ObjectId,
-        ref: USER_MODEL_NAME,
+        ref: AUTH_MODEL_NAME,
       },
       editor: {
         type: Schema.Types.ObjectId,
-        ref: USER_MODEL_NAME,
+        ref: AUTH_MODEL_NAME,
       },
       auditor: {
         type: Schema.Types.ObjectId,
-        ref: USER_MODEL_NAME,
+        ref: AUTH_MODEL_NAME,
       },
       transactionDate: {
         type: Date,
@@ -95,10 +95,6 @@ const createTransactionSchema = (companyId) =>
 
 const createTransactionModel = (companyId) => {
   if (models[getTransactionModelName(companyId)]) {
-    console.log({
-      currentModel: models[getTransactionModelName(companyId)],
-      models,
-    });
     return models[getTransactionModelName(companyId)];
   }
   const Model = model(

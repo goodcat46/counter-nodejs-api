@@ -14,9 +14,10 @@ async function createPermission({ newPermission, companyId }) {
 
   const { user, role } = newPermission;
 
-  const oldPerm = Model.find({ company: companyId, user, role });
+  const oldPerm = await Model.findOne({ company: companyId, user, role });
 
   if (oldPerm) {
+    console.log("old permission", oldPerm);
     throw CreateError({
       status: HttpStatus.CONFLICT,
       message: permissionsMessages.ALREADY_EXIST,

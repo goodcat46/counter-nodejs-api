@@ -1,56 +1,56 @@
 const express = require("express");
 
-const AuthsRouter = express.Router();
+const AuthRouter = express.Router();
 
 const controllers = require("./authControllers");
 const middlewares = require("../middlewares");
 const UserDto = require("./auth.dto");
 const controllerWrapper = require("../helpers/controllerWrapper");
 
-AuthsRouter.post(
+AuthRouter.post(
   "/register",
   middlewares.validateBody(UserDto.registerUserSchema),
   controllerWrapper(controllers.registerUser)
 );
 
-AuthsRouter.get(
+AuthRouter.get(
   "/login",
   middlewares.validateBody(UserDto.loginUserSchema),
   controllerWrapper(controllers.loginUser)
 );
 
-AuthsRouter.get(
+AuthRouter.get(
   "/current",
   middlewares.authenticate,
   controllerWrapper(controllers.getCurrentUser)
 );
-AuthsRouter.get(
+AuthRouter.get(
   "/currentUserInfo",
   middlewares.authenticate,
   controllerWrapper(controllers.getCurrentUserInfo)
 );
 
-AuthsRouter.post(
+AuthRouter.post(
   "/logout",
   middlewares.authenticate,
   controllerWrapper(controllers.logoutUser)
 );
 
-AuthsRouter.post(
+AuthRouter.post(
   "/verify",
   middlewares.validateBody(UserDto.resendVerificationEmail),
   controllerWrapper(controllers.resendVerificationEmail)
 );
 
-AuthsRouter.get(
+AuthRouter.get(
   "/verify/:verificationToken",
   controllerWrapper(controllers.verify)
 );
 
-AuthsRouter.get(
+AuthRouter.get(
   "/getRefreshToken",
   middlewares.authenticateRefreshToken,
   controllerWrapper(controllers.refreshToken)
 );
 
-module.exports = AuthsRouter;
+module.exports = AuthRouter;

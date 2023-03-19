@@ -1,7 +1,7 @@
-const userRolesEnum = ["USER", "MODERATOR", "ADMIN", "MANAGER"];
-const USER_MODEL_NAME = "user";
+const AUTH_MODEL_NAME = "user";
+const AUTH_COLLECTION_NAME = "users";
 
 module.exports = {
-  userRolesEnum,
-  USER_MODEL_NAME,
+  AUTH_MODEL_NAME,
+  AUTH_COLLECTION_NAME,
 };

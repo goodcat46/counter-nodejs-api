@@ -1,7 +1,7 @@
 const { createError, HttpStatus } = require("../helpers");
 const AuthMessages = require("../auth/auth.messages");
 
-const createRoleModel = require("./role.model");
+const { createRoleModel } = require("./role.model");
 
 async function getAllRoles({ companyID }) {
   const RoleModel = createRoleModel(companyID);

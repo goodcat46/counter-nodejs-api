@@ -1,5 +1,5 @@
 const { Schema, model, SchemaTypes } = require("mongoose");
-const { USER_MODEL_NAME } = require("../auth/auth.constants");
+const { AUTH_MODEL_NAME } = require("../auth/auth.constants");
 const { COMPANY_MODEL_NAME } = require("./companies.constants");
 const companiesMessages = require("./companies.messages");
 
@@ -12,7 +12,7 @@ const companySchema = new Schema(
     owner: {
       type: SchemaTypes.ObjectId,
       default: null,
-      ref: USER_MODEL_NAME,
+      ref: AUTH_MODEL_NAME,
       // required: [true, companiesMessages.OWNER_IS_REQUIRED],
     },
     descr: {
