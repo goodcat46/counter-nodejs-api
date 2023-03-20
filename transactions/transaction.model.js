@@ -106,4 +106,11 @@ const createTransactionModel = (companyId) => {
   return Model;
 };
 
-module.exports = { createTransactionModel };
+module.exports = {
+  create: createTransactionModel,
+  getModelName: getTransactionModelName,
+  getCollectionName: getTransactionsCollectionName,
+  createTransactionModel,
+  getTransactionModelName,
+  getTransactionsCollectionName,
+};

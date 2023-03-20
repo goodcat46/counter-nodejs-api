@@ -42,4 +42,11 @@ const createRoleModel = (companyId) => {
 
   return Model;
 };
-module.exports = { createRoleModel };
+module.exports = {
+  create: createRoleModel,
+  getModelName: getRoleModelName,
+  getCollectionName: getRoleCollectionName,
+  createRoleModel,
+  getRoleModelName,
+  getRoleCollectionName,
+};

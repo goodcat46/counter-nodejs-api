@@ -1,10 +1,10 @@
-const { createTransactionModel } = require("./transaction.model");
+const TransactionModel = require("./transaction.model");
 // db.inventory.find( { $or: [ { quantity: { $lt: 20 } }, { price: 10 } ] } )
 
 async function getAllTransactions({ companyId }) {
-  const TransactionModel = createTransactionModel(companyId);
+  const Model = TransactionModel.create(companyId);
 
-  return TransactionModel.find()
+  return Model.find()
     .populate({ path: "countIdIn", select: "name code" })
     .populate({ path: "subCountIdIn", select: "name code" })
     .populate({ path: "countIdOut", select: "name code" })
@@ -14,9 +14,9 @@ async function getAllTransactions({ companyId }) {
     .sort({ transactionDate: -1 });
 }
 async function getAllTrsByCountIds({ idsArrData, companyId }) {
-  const TransactionModel = createTransactionModel(companyId);
+  const Model = TransactionModel.create(companyId);
 
-  return TransactionModel.find({
+  return Model.find({
     $or: [
       { countIdIn: { $in: idsArrData } },
       { countIdOut: { $in: idsArrData } },
@@ -24,9 +24,9 @@ async function getAllTrsByCountIds({ idsArrData, companyId }) {
   }).exec();
 }
 async function getAllTrsBySubCountIds({ idsArrData, companyId }) {
-  const TransactionModel = createTransactionModel(companyId);
+  const Model = TransactionModel.create(companyId);
 
-  return TransactionModel.find(
+  return Model.find(
     {
       $or: [
         { subCountIdIn: { $in: idsArrData } },
@@ -40,30 +40,30 @@ async function getAllTrsBySubCountIds({ idsArrData, companyId }) {
 }
 
 async function createTransaction({ dto, companyId }) {
-  const TransactionModel = createTransactionModel(companyId);
+  const Model = TransactionModel.create(companyId);
 
-  const createdDoc = await TransactionModel.create(dto);
+  const createdDoc = await Model.create(dto);
 
   return findTransactionById(createdDoc?._id);
 }
 async function createManyTrs({ trsArrData, companyId }) {
-  const TransactionModel = createTransactionModel(companyId);
+  const Model = TransactionModel.create(companyId);
 
-  return TransactionModel.insertMany(trsArrData);
+  return Model.insertMany(trsArrData);
 }
 
 async function updateTransactionById({ id, updateData, companyId }) {
-  const TransactionModel = createTransactionModel(companyId);
+  const Model = TransactionModel.create(companyId);
 
-  return TransactionModel.findByIdAndUpdate(id, updateData, {
+  return Model.findByIdAndUpdate(id, updateData, {
     new: true,
   });
 }
 
 async function findTransactionById({ id, companyId }) {
-  const TransactionModel = createTransactionModel(companyId);
+  const Model = TransactionModel.create(companyId);
 
-  return TransactionModel.findById(id)
+  return Model.findById(id)
     .populate({ path: "countIdIn", select: "name code" })
     .populate({ path: "subCountIdIn", select: "name code" })
     .populate({ path: "countIdOut", select: "name code" })
@@ -73,14 +73,14 @@ async function findTransactionById({ id, companyId }) {
 }
 
 async function deleteTransactionById({ id, companyId }) {
-  const TransactionModel = createTransactionModel(companyId);
+  const Model = TransactionModel.create(companyId);
 
-  return TransactionModel.findByIdAndRemove(id);
+  return Model.findByIdAndRemove(id);
 }
 async function deleteManyTrById({ idsArrData, companyId }) {
-  const TransactionModel = createTransactionModel(companyId);
+  const Model = TransactionModel.create(companyId);
 
-  return TransactionModel.deleteMany({ _id: { $in: idsArrData } });
+  return Model.deleteMany({ _id: { $in: idsArrData } });
 }
 
 module.exports = {

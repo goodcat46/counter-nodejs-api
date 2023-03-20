@@ -1,5 +1,10 @@
-const { Schema, model, SchemaTypes } = require("mongoose");
-const { countTypeEnum, COUNT_MODEL_NAME } = require("./counts.constants");
+const { Schema, model, SchemaTypes, models } = require("mongoose");
+const {
+  countTypeEnum,
+  getCountModelName,
+  getCountsCollectionName,
+} = require("./counts.constants");
+const { AUTH_MODEL_NAME } = require("../auth/auth.constants");
 //!   { _id: 5, name: '', owner: '', type: '', code: '', descr: '' },
 
 const CountSchema = new Schema(
@@ -12,7 +17,7 @@ const CountSchema = new Schema(
     owner: {
       type: SchemaTypes.ObjectId,
       default: null,
-      ref: COUNT_MODEL_NAME,
+      ref: AUTH_MODEL_NAME,
     },
     type: {
       type: String,
@@ -37,6 +42,17 @@ const CountSchema = new Schema(
   }
 );
 
-const CountModel = model(COUNT_MODEL_NAME, CountSchema);
+const createCountModel = (companyId) => {
+  if (models[getCountModelName(companyId)]) {
+    return models[getCountModelName(companyId)];
+  }
+  const Model = model(
+    getCountModelName(companyId),
+    CountSchema,
+    getCountsCollectionName(companyId)
+  );
 
-module.exports = CountModel;
+  return Model;
+};
+
+module.exports = { createCountModel, getCountModelName };

@@ -2,7 +2,7 @@ const { Schema, model, SchemaTypes, models } = require("mongoose");
 
 const { AUTH_MODEL_NAME } = require("../auth/auth.constants");
 const { COMPANY_MODEL_NAME } = require("../companies/companies.constants");
-const { getRoleModelName } = require("../roles/roles.constants");
+const { RoleModel } = require("../roles");
 
 const {
   PERMISSION_STATUS_ENUM,
@@ -30,7 +30,7 @@ const createPermissionSchema = (companyId) =>
       role: {
         type: SchemaTypes.ObjectId,
         default: null,
-        ref: companyId && getRoleModelName(companyId),
+        ref: companyId && RoleModel.getModelName(companyId),
         required: [true, permissionsMessages.MISSING_PARAMS(["role"])],
       },
       status: {
@@ -58,4 +58,10 @@ function createPermissionModel(companyId) {
   return Model;
 }
 
-module.exports = { createPermissionModel };
+module.exports = {
+  create: createPermissionModel,
+  getModelName: getPermissionModelName,
+  getCollectionName: () => PERMISSIONS_COLLECTION_NAME,
+  createPermissionModel,
+  getPermissionModelName,
+};

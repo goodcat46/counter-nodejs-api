@@ -27,11 +27,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-  middlewares.modelsInitializer([
-    TransactionModel.createTransactionModel,
-    RoleModel.createRoleModel,
-    PermissionModel.createPermissionModel,
-  ])
+  middlewares.modelsInitializer([TransactionModel, RoleModel, PermissionModel])
 );
 app.use((req, _res, next) => {
   console.log({ params: req.params, query: req.query, body: req.body });
