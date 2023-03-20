@@ -5,7 +5,7 @@ const { apiActions } = require("./actionsNames.map");
 
 async function createRole(req, res) {
   const { name, actions, descr } = req.body;
-  const { _id: companyID } = req.company;
+  const { _id: companyId } = req.company;
 
   const newData = {
     name,
@@ -13,7 +13,7 @@ async function createRole(req, res) {
     descr,
   };
 
-  const createdRole = await RolesService.createRole({ newData, companyID });
+  const createdRole = await RolesService.createRole({ newData, companyId });
 
   if (!createdRole) {
     throw createError({
@@ -29,9 +29,9 @@ async function createRole(req, res) {
 }
 async function deleteRoleById(req, res) {
   const { id } = req.params;
-  const { _id: companyID } = req.company;
+  const { _id: companyId } = req.company;
 
-  const deletedDoc = await RolesService.deleteRoleById({ id, companyID });
+  const deletedDoc = await RolesService.deleteRoleById({ id, companyId });
 
   if (!deletedDoc) {
     throw createError({
@@ -48,12 +48,12 @@ async function deleteRoleById(req, res) {
 async function addActionsToRoleById(req, res) {
   const { actions } = req.body;
   const { id } = req.params;
-  const { _id: companyID } = req.company;
+  const { _id: companyId } = req.company;
 
   const updatedDoc = await RolesService.addActionsToRoleById({
     id,
     actions,
-    companyID,
+    companyId,
   });
 
   if (!updatedDoc) {
@@ -72,12 +72,12 @@ async function addActionsToRoleById(req, res) {
 async function removeActionsFromRoleById(req, res) {
   const { actions } = req.body;
   const { id } = req.params;
-  const { _id: companyID } = req.company;
+  const { _id: companyId } = req.company;
 
   const updatedDoc = await RolesService.removeActionsFromRoleById({
     id,
     actions,
-    companyID,
+    companyId,
   });
 
   if (!updatedDoc) {
@@ -93,9 +93,9 @@ async function removeActionsFromRoleById(req, res) {
   });
 }
 async function getAllRoles(req, res) {
-  const { _id: companyID } = req.company;
+  const { _id: companyId } = req.company;
 
-  const allRoles = await RolesService.getAllRoles({ companyID });
+  const allRoles = await RolesService.getAllRoles({ companyId });
 
   if (allRoles.length === 0) {
     throw createError({
