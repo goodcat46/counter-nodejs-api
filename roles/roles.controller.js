@@ -98,7 +98,10 @@ async function getAllRoles(req, res) {
   const allRoles = await RolesService.getAllRoles({ companyID });
 
   if (allRoles.length === 0) {
-    throw createError({ status: HttpStatus.NOT_FOUND });
+    throw createError({
+      status: HttpStatus.NOT_FOUND,
+      message: RolesMessages.NOT_FOUND_ROLES,
+    });
   }
 
   res.status(HttpStatus.OK).json({
