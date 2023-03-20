@@ -1,35 +1,38 @@
 const express = require("express");
 const { controllerWrapper } = require("../helpers");
-const validateBody = require("../middlewares/validateBody");
+const {
+  validateBody,
+  authenticate,
+  checkCompanyId,
+} = require("../middlewares");
 const CategoryDto = require("./category.dto");
 const CategoriesController = require("./categories.controller");
 
-const CategoryRouter = express.Router();
+const CategoriesRouter = express.Router();
 
-CategoryRouter.get(
+CategoriesRouter.use(authenticate);
+CategoriesRouter.use(checkCompanyId);
+
+CategoriesRouter.get(
   "/getAll",
-  // middlewares.authenticate,
   controllerWrapper(CategoriesController.getAllCategories)
 );
 
-CategoryRouter.post(
+CategoriesRouter.post(
   "/create",
-  // middlewares.authenticate,
   validateBody(CategoryDto.createCategoryDto),
   controllerWrapper(CategoriesController.createCategory)
 );
 
-CategoryRouter.delete(
+CategoriesRouter.delete(
   "/delete/:id",
-  // middlewares.authenticate,
   controllerWrapper(CategoriesController.deleteCategoryById)
 );
 
-CategoryRouter.patch(
+CategoriesRouter.patch(
   "/update/:id",
-  // middlewares.authenticate,
   validateBody(CategoryDto.updateCategoryDto),
   controllerWrapper(CategoriesController.updateCategoryById)
 );
 
-module.exports = CategoryRouter;
+module.exports = CategoriesRouter;

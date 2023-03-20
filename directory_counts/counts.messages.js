@@ -8,10 +8,11 @@ const UPDATING_ERROR = `Updating count error`;
 const UPDATING_SUCCESS = `Updating count success`;
 const DELETING_ERROR = `Deletinig count error`;
 const DELETING_SUCCESS = `Deletinig count success`;
+
 // const NOT_VERIFY_EMAIL = (email) =>
 //   `User with email${email}. Please verify you email`;
 
-module.exports = {
+const CountsMessages = {
   NAME_IN_USE,
   CREATING_SUCCESS,
   CREATING_ERROR,
@@ -23,3 +24,4 @@ module.exports = {
   DELETING_ERROR,
   DELETING_SUCCESS,
 };
+module.exports = CountsMessages;

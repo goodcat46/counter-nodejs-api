@@ -7,7 +7,7 @@ const CategoriesService = require("./categories.service");
 const CategoriesRouter = require("./categories.router");
 const categoriesActionsMap = require("./categories.map");
 
-module.exports = {
+const CategoriesModule = {
   CategoryModel,
   CategoriesMessages,
   CategoriesController,
@@ -17,3 +17,4 @@ module.exports = {
   CategoriesRouter,
   categoriesActionsMap,
 };
+module.exports = CategoriesModule;

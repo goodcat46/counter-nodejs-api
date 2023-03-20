@@ -2,10 +2,12 @@ const INCOME = "INCOME";
 const EXPENSE = "EXPENSE";
 const TRANSFER = "TRANSFER";
 const CATEGORY_MODEL_NAME = "category";
+const CATEGORY_COLLECTION_NAME = "categories";
 
-const categoryTypeEnum = [INCOME, EXPENSE, TRANSFER];
+const CATEORY_TYPE_ENUM = [INCOME, EXPENSE, TRANSFER];
 
 module.exports = {
-  categoryTypeEnum,
+  CATEORY_TYPE_ENUM,
   CATEGORY_MODEL_NAME,
+  CATEGORY_COLLECTION_NAME,
 };

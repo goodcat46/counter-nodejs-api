@@ -17,17 +17,20 @@ function modelsInitializer(modelsData = []) {
       // console.log("cachedModels", companiesCashedModels);
       // !  req.models = cachedModels[companyId];
     } else {
-      const models = modelsData.map(({ create, getModelName }) => {
-        if (typeof create === "function") return create(companyId);
+      modelsData.map(({ create }) => {
+        if (typeof create === "function") {
+          const Model = create(companyId);
+          return Model;
+        }
 
-        return getModelName && getModelName(companyId);
+        return null;
       });
 
-      console.log("created models", models);
+      // console.log("created models", models);
       // ! cachedModels[companyId] = Models; // зберігання створених моделей
       companiesCashedModels.push(companyId);
 
-      console.log("cachedModels", companiesCashedModels);
+      // console.log("cachedModels", companiesCashedModels);
     }
 
     next();

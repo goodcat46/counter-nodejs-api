@@ -1,4 +1,4 @@
-const TransactionService = require("./transactions.service");
+const TransactionsService = require("./transactions.service");
 const TransactionMessages = require("./transactions.messages");
 const { createError } = require("../helpers");
 
@@ -12,7 +12,7 @@ async function createManyTrs(req, res) {
     type: tr?.type.toUpperCase(),
   }));
 
-  const createdTrsData = await TransactionService.createManyTrs({
+  const createdTrsData = await TransactionsService.createManyTrs({
     trsArrData: newTrsArrData,
     companyId,
   });
@@ -39,7 +39,7 @@ async function createTransaction(req, res) {
     ...req.body,
   };
 
-  const newTransaction = await TransactionService.createTransaction({
+  const newTransaction = await TransactionsService.createTransaction({
     dto: newTransactionData,
     companyId,
   });
@@ -61,7 +61,7 @@ async function deleteManyTrById(req, res) {
   const { body } = req;
   const { _id: companyId } = req?.company;
 
-  const result = await TransactionService.deleteManyTrById({
+  const result = await TransactionsService.deleteManyTrById({
     idsArrData: body,
     companyId,
   });
@@ -89,7 +89,7 @@ async function deleteTransaction(req, res) {
   const { id } = req.params;
   const { _id: companyId } = req?.company;
 
-  const result = await TransactionService.deleteTransactionById({
+  const result = await TransactionsService.deleteTransactionById({
     id,
     companyId,
   });
@@ -116,7 +116,7 @@ async function getAllTransactions(req, res) {
   };
   const searchParams = {};
 
-  const allTransactions = await TransactionService.getAllTransactions({
+  const allTransactions = await TransactionsService.getAllTransactions({
     searchParams,
     paginationSettings,
     companyId,
@@ -136,7 +136,7 @@ async function getAllTrsByCountIds(req, res) {
     skip,
   };
 
-  const allTransactions = await TransactionService.getAllTrsByCountIds(
+  const allTransactions = await TransactionsService.getAllTrsByCountIds(
     req.body,
     paginationSettings
   );
@@ -155,7 +155,7 @@ async function getAllTrsBySubCountIds(req, res) {
     skip,
   };
 
-  const allTransactions = await TransactionService.getAllTrsBySubCountIds(
+  const allTransactions = await TransactionsService.getAllTrsBySubCountIds(
     req.body,
     paginationSettings
   );
@@ -168,7 +168,7 @@ async function getAllTrsBySubCountIds(req, res) {
 async function getById(req, res) {
   const { id } = req.params;
 
-  const result = await TransactionService.getById(id);
+  const result = await TransactionsService.getById(id);
 
   if (!result) {
     throw createError({ status: 404, message: "Not found" });
@@ -187,7 +187,7 @@ async function updateTransaction(req, res) {
     editor: req?.user?._id,
     ...req.body,
   };
-  const result = await TransactionService.updateTransactionById({
+  const result = await TransactionsService.updateTransactionById({
     id,
     updateData,
     companyId,
@@ -206,7 +206,7 @@ async function updateTransaction(req, res) {
   });
 }
 
-module.exports = {
+const TransactionsController = {
   createManyTrs,
   createTransaction,
   deleteManyTrById,
@@ -217,3 +217,4 @@ module.exports = {
   getById,
   updateTransaction,
 };
+module.exports = TransactionsController;

@@ -1,41 +1,68 @@
-const { Schema, model, SchemaTypes } = require("mongoose");
+const { Schema, model, SchemaTypes, models } = require("mongoose");
 const {
-  categoryTypeEnum,
+  CATEORY_TYPE_ENUM,
   CATEGORY_MODEL_NAME,
+  CATEGORY_COLLECTION_NAME,
 } = require("./categories.constants");
 //!   { _id: 5, name: '', owner: '', type: '', code: '', descr: '' },
 
-const CountSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Name is required"],
-      unique: true,
+const getCategoryModelName = (companyId) =>
+  `${companyId}_${CATEGORY_MODEL_NAME}`;
+const getCategoriesCollectionName = (companyId) =>
+  `${companyId}_${CATEGORY_COLLECTION_NAME}`;
+
+const createCategorySchema = (companyId) =>
+  new Schema(
+    {
+      name: {
+        type: String,
+        required: [true, "Name is required"],
+        unique: true,
+      },
+      owner: {
+        type: SchemaTypes.ObjectId,
+        default: null,
+        ref: getCategoryModelName(companyId),
+      },
+      type: {
+        type: String,
+        enum: CATEORY_TYPE_ENUM,
+        required: [
+          true,
+          `Type is required / type one of: ${CATEORY_TYPE_ENUM.join(", ")}`,
+        ],
+      },
+      descr: {
+        type: String,
+        default: null,
+      },
+      balance: {
+        type: Number,
+      },
     },
-    owner: {
-      type: SchemaTypes.ObjectId,
-      default: null,
-      ref: CATEGORY_MODEL_NAME,
-    },
-    type: {
-      type: String,
-      enum: categoryTypeEnum,
-      required: [true, `Type is required / type one of: ${categoryTypeEnum}`],
-    },
-    descr: {
-      type: String,
-      default: null,
-    },
-    balance: {
-      type: Number,
-    },
-  },
-  {
-    versionKey: false,
-    timestamps: true,
+    {
+      versionKey: false,
+      timestamps: true,
+    }
+  );
+
+const createCategoryModel = (companyId) => {
+  if (models[getCategoryModelName(companyId)]) {
+    return models[getCategoryModelName(companyId)];
   }
-);
+  const Model = model(
+    getCategoryModelName(companyId),
+    createCategorySchema(companyId),
+    getCategoriesCollectionName(companyId)
+  );
 
-const CountModel = model(CATEGORY_MODEL_NAME, CountSchema);
+  return Model;
+};
 
-module.exports = CountModel;
+const CategoryModel = {
+  create: createCategoryModel,
+  getModelName: getCategoryModelName,
+  getCollectionName: getCategoriesCollectionName,
+};
+
+module.exports = CategoryModel;

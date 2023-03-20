@@ -38,6 +38,6 @@ const userSchema = new Schema(
   }
 );
 
-const UserModel = model(AUTH_MODEL_NAME, userSchema, AUTH_COLLECTION_NAME);
+const AuthModel = model(AUTH_MODEL_NAME, userSchema, AUTH_COLLECTION_NAME);
 
-module.exports = UserModel;
+module.exports = AuthModel;

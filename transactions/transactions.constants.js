@@ -1,7 +1,7 @@
 const TRANSACTION_MODEL_NAME = "transaction";
 const getTransactionsCollectionName = (companyId) =>
-  `transactions_${companyId}`;
-const getTransactionModelName = (companyId) => `transaction_${companyId}`;
+  `${companyId}_transactions`;
+const getTransactionModelName = (companyId) => `${companyId}_transaction`;
 const EXPENSE = `EXPENSE`;
 const INCOME = `INCOME`;
 const TRANSFER = `TRANSFER`;

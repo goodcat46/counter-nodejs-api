@@ -4,10 +4,11 @@ const AuthRouter = require("./auth.router");
 const AuthServise = require("./auth.service");
 const AuthConstants = require("./auth.constants");
 
-module.exports = {
+const AuthModule = {
   AuthDto,
   AuthMessages,
   AuthRouter,
   AuthServise,
   AuthConstants,
 };
+module.exports = AuthModule;

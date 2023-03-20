@@ -5,13 +5,13 @@ const cookieParser = require("cookie-parser");
 
 const middlewares = require("./middlewares");
 
-const { AuthRouter } = require("./auth");
+const AuthModule = require("./auth");
 const { CompaniesRouter } = require("./companies");
 const { RolesRouter, RoleModel } = require("./roles");
 const { TransactionsRouter, TransactionModel } = require("./transactions");
 const { PermissionsRouter, PermissionModel } = require("./permisions");
-const { CountsRouter } = require("./directory_counts");
-const { CategoriesRouter } = require("./directory_categories");
+const CountsModule = require("./directory_counts");
+const CategoriesModule = require("./directory_categories");
 const mongoose = require("mongoose");
 
 // console.log(middlewares);
@@ -30,8 +30,8 @@ app.use(
   middlewares.modelsInitializer([TransactionModel, RoleModel, PermissionModel])
 );
 app.use((req, _res, next) => {
-  console.log({ params: req.params, query: req.query, body: req.body });
-  console.log({ models: mongoose.modelNames() });
+  console.log("req", { params: req.params, query: req.query, body: req.body });
+  console.log("mongoose modelNames", mongoose.modelNames());
   next();
 });
 
@@ -43,7 +43,7 @@ app.use((req, _res, next) => {
 //   })
 // );
 
-app.use("/api/auth", AuthRouter);
+app.use("/api/auth", AuthModule.AuthRouter);
 app.use("/api/companies", CompaniesRouter);
 app.use("/api/:companyId/roles", (req, res, next) => {
   console.log({ params: req.params, query: req.query });
@@ -51,8 +51,11 @@ app.use("/api/:companyId/roles", (req, res, next) => {
 });
 app.use("/api/:companyId/permissions", PermissionsRouter);
 app.use("/api/:companyId/transactions", TransactionsRouter);
-app.use("/api/:companyId/directories/counts", CountsRouter);
-app.use("/api/:companyId/directories/categories", CategoriesRouter);
+app.use("/api/:companyId/directories/counts", CountsModule.CountsRouter);
+app.use(
+  "/api/:companyId/directories/categories",
+  CategoriesModule.CategoriesRouter
+);
 
 app.use("/api/:companyId/test", function (req, res, next) {
   console.log("Request Id:", req.params.companyId);
@@ -63,11 +66,11 @@ app.use("/api/:companyId/test", function (req, res, next) {
   next();
 });
 
-app.use((req, res) => {
+app.use((_req, res, _next) => {
   res.status(404).json({ message: "Not found" });
 });
 
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
   res.status(err.status || 500).json({ message: err.message });
 });
 

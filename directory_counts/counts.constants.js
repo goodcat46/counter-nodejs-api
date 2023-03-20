@@ -1,14 +1,12 @@
 const ACTIVE = "ACTIVE";
 const PASSIVE = "PASSIVE";
 const COUNT_MODEL_NAME = "count";
-const getCountModelName = (companyId) => `${COUNT_MODEL_NAME}_${companyId}`;
-const getCountsCollectionName = (companyId) => `counts_${companyId}`;
+const COUNT_COLLECTION_NAME = "counts";
 
-const countTypeEnum = [ACTIVE, PASSIVE];
+const COUNT_TYPE_ENUM = [ACTIVE, PASSIVE];
 
 module.exports = {
-  countTypeEnum,
+  COUNT_TYPE_ENUM,
   COUNT_MODEL_NAME,
-  getCountModelName,
-  getCountsCollectionName,
+  COUNT_COLLECTION_NAME,
 };

@@ -1,4 +1,4 @@
-const UserModel = require("./auth.model");
+const AuthModel = require("./auth.model");
 const bcrypt = require("bcryptjs");
 const { randomUUID } = require("crypto");
 const createError = require("../helpers/createError");
@@ -9,7 +9,7 @@ const { HttpStatus } = require("../helpers");
 const { JWT_SECRET_KEY } = process.env;
 
 async function findUserById(id) {
-  const user = UserModel.findById(id);
+  const user = AuthModel.findById(id);
   if (!user) {
     console.log({ message: "User not found" });
     throw createError({ status: 401, message: "Email or password is wrong" });
@@ -18,7 +18,7 @@ async function findUserById(id) {
   return user;
 }
 async function findUserByEmail(email) {
-  const user = UserModel.find({ email });
+  const user = AuthModel.find({ email });
   if (!user) {
     console.log({ message: "User not found" });
     throw createError({ status: 401, message: "Email or password is wrong" });
@@ -40,7 +40,7 @@ async function registerUser(dto) {
 
   const verificationToken = randomUUID();
 
-  return UserModel.create({
+  return AuthModel.create({
     passwordHash: hashPassword,
     email,
     verificationToken,
@@ -48,7 +48,7 @@ async function registerUser(dto) {
 }
 
 async function findUserByIdAndUpdate({ id, updateData }) {
-  return UserModel.findByIdAndUpdate(id, updateData, {
+  return AuthModel.findByIdAndUpdate(id, updateData, {
     new: true,
   });
 }
@@ -82,11 +82,12 @@ async function UserCheckByToken(req, _res, next) {
   }
 }
 
-module.exports = {
+const AuthServise = {
   findUserById,
   findUserByIdAndUpdate,
   registerUser,
   UserCheckByToken,
   findUserByEmail,
 };
+module.exports = AuthServise;
 // 1FDK7xRFHUN8Gc1o

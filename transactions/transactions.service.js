@@ -83,7 +83,7 @@ async function deleteManyTrById({ idsArrData, companyId }) {
   return Model.deleteMany({ _id: { $in: idsArrData } });
 }
 
-module.exports = {
+const TransactionsService = {
   getAllTransactions,
   getAllTrsByCountIds,
   getAllTrsBySubCountIds,
@@ -94,3 +94,4 @@ module.exports = {
   createManyTrs,
   deleteManyTrById,
 };
+module.exports = TransactionsService;

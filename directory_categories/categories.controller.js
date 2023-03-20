@@ -3,9 +3,13 @@ const CategoriesMessages = require("./categories.messages");
 const { createError, HttpStatus } = require("../helpers");
 
 async function createCategory(req, res) {
-  const newDoc = req.body;
+  const newData = req?.body;
+  const companyId = req?.company?._id;
 
-  const createdDoc = await CategoriesService.createCategory(newDoc);
+  const createdDoc = await CategoriesService.createCategory({
+    newData,
+    companyId,
+  });
 
   if (!createdDoc) {
     throw createError({
@@ -22,8 +26,12 @@ async function createCategory(req, res) {
 
 async function deleteCategoryById(req, res) {
   const { id } = req.params;
+  const companyId = req?.company?._id;
 
-  const deletedDoc = await CategoriesService.deleteCategoryById(id);
+  const deletedDoc = await CategoriesService.deleteCategoryById({
+    id,
+    companyId,
+  });
 
   if (!deletedDoc) {
     throw createError({
@@ -41,8 +49,13 @@ async function deleteCategoryById(req, res) {
 async function updateCategoryById(req, res) {
   const { body } = req;
   const { id } = req.params;
+  const companyId = req?.company?._id;
 
-  const updatedDoc = await CategoriesService.updateCategoryById(id, body);
+  const updatedDoc = await CategoriesService.updateCategoryById({
+    id,
+    updateData: body,
+    companyId,
+  });
 
   if (!updatedDoc) {
     throw createError({
@@ -57,8 +70,10 @@ async function updateCategoryById(req, res) {
   });
 }
 
-async function getAllCategories(_req, res) {
-  const allCategories = await CategoriesService.getAllCategories();
+async function getAllCategories(req, res) {
+  const companyId = req?.company?._id;
+
+  const allCategories = await CategoriesService.getAllCategories({ companyId });
 
   if (allCategories.length === 0) {
     throw createError({
@@ -73,9 +88,10 @@ async function getAllCategories(_req, res) {
   });
 }
 
-module.exports = {
+const CategoriesController = {
   createCategory,
   getAllCategories,
   deleteCategoryById,
   updateCategoryById,
 };
+module.exports = CategoriesController;

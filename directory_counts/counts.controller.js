@@ -4,8 +4,9 @@ const { createError, HttpStatus } = require("../helpers");
 
 async function createCount(req, res) {
   const newCount = req.body;
+  const companyId = req?.company?._id;
 
-  const createdCount = await CountsService.createCount(newCount);
+  const createdCount = await CountsService.createCount({ newCount, companyId });
 
   if (!createdCount) {
     throw createError({
@@ -22,8 +23,9 @@ async function createCount(req, res) {
 
 async function deleteCountById(req, res) {
   const { id } = req.params;
+  const companyId = req?.company?._id;
 
-  const deletedDoc = await CountsService.deleteCountById(id);
+  const deletedDoc = await CountsService.deleteCountById({ id, companyId });
 
   if (!deletedDoc) {
     throw createError({ status: 404, message: CountsMessages.DELETING_ERROR });
@@ -38,8 +40,13 @@ async function deleteCountById(req, res) {
 async function updateCountById(req, res) {
   const { body } = req;
   const { id } = req.params;
+  const companyId = req?.company?._id;
 
-  const updatedDoc = await CountsService.updateCountById(id, body);
+  const updatedDoc = await CountsService.updateCountById({
+    id,
+    updteData: body,
+    companyId,
+  });
 
   if (!updatedDoc) {
     throw createError({ status: 404, message: CountsMessages.UPDATING_ERROR });
@@ -51,8 +58,9 @@ async function updateCountById(req, res) {
   });
 }
 
-async function getAllCounts(_req, res) {
-  const allCounts = await CountsService.getAllCounts();
+async function getAllCounts(req, res) {
+  const companyId = req?.company?._id;
+  const allCounts = await CountsService.getAllCounts({ companyId });
 
   if (allCounts.length === 0) {
     throw createError({ status: 404, message: CountsMessages.NOT_FOUND_ITEMS });

@@ -1,16 +1,24 @@
 const CountModel = require("./count.model");
 const { createError } = require("../helpers");
 
-async function getAllCounts() {
-  return CountModel.find().populate("owner").exec();
+async function getAllCounts({ companyId }) {
+  const Model = CountModel.create(companyId);
+
+  return Model.find().populate("owner").exec();
 }
-async function findCountById(id) {
-  return CountModel.findById(id).populate("owner").exec();
+async function findCountById({ id, companyId }) {
+  const Model = CountModel.create(companyId);
+
+  return Model.findById(id).populate("owner").exec();
 }
-async function findCountByName(name) {
-  return CountModel.findOne(name).populate("owner").exec();
+async function findCountByName({ name, companyId }) {
+  const Model = CountModel.create(companyId);
+
+  return Model.findOne(name).populate("owner").exec();
 }
-async function createCount(newCount) {
+async function createCount({ newCount, companyId }) {
+  const Model = CountModel.create(companyId);
+
   const { name } = newCount;
 
   const Count = await findCountByName({ name });
@@ -19,19 +27,24 @@ async function createCount(newCount) {
     throw createError({ status: 409, message: "Count already exist" });
   }
 
-  return CountModel.create(newCount);
+  return Model.create(newCount);
 }
-async function deleteCountById(id) {
-  return CountModel.findByIdAndDelete(id);
+async function deleteCountById({ id, companyId }) {
+  const Model = CountModel.create(companyId);
+
+  return Model.findByIdAndDelete(id);
 }
-async function updateCountById(id, updateData) {
-  return CountModel.findByIdAndUpdate(id, updateData, {
+async function updateCountById({ id, updateData, companyId }) {
+  const Model = CountModel.create(companyId);
+
+  return Model.findByIdAndUpdate(id, updateData, {
     new: true,
   });
 }
+async function canHaveChildrenCheck({ id, companyId }) {
+  const Model = CountModel.create(companyId);
 
-async function canHaveChildrenCheck(id) {
-  const parentDoc = await CountModel.findById(id);
+  const parentDoc = await Model.findById(id);
 
   if (parentDoc && parentDoc?.owner) {
     return false;
@@ -39,8 +52,7 @@ async function canHaveChildrenCheck(id) {
 
   return true;
 }
-
-module.exports = {
+const CountsService = {
   getAllCounts,
   findCountById,
   findCountByName,
@@ -49,3 +61,4 @@ module.exports = {
   updateCountById,
   canHaveChildrenCheck,
 };
+module.exports = CountsService;

@@ -2,7 +2,7 @@ const express = require("express");
 
 const AuthRouter = express.Router();
 
-const controllers = require("./authControllers");
+const AuthController = require("./authControllers");
 const middlewares = require("../middlewares");
 const UserDto = require("./auth.dto");
 const controllerWrapper = require("../helpers/controllerWrapper");
@@ -10,47 +10,47 @@ const controllerWrapper = require("../helpers/controllerWrapper");
 AuthRouter.post(
   "/register",
   middlewares.validateBody(UserDto.registerUserSchema),
-  controllerWrapper(controllers.registerUser)
+  controllerWrapper(AuthController.registerUser)
 );
 
 AuthRouter.get(
   "/login",
   middlewares.validateBody(UserDto.loginUserSchema),
-  controllerWrapper(controllers.loginUser)
+  controllerWrapper(AuthController.loginUser)
 );
 
 AuthRouter.get(
   "/current",
   middlewares.authenticate,
-  controllerWrapper(controllers.getCurrentUser)
+  controllerWrapper(AuthController.getCurrentUser)
 );
 AuthRouter.get(
   "/currentUserInfo",
   middlewares.authenticate,
-  controllerWrapper(controllers.getCurrentUserInfo)
+  controllerWrapper(AuthController.getCurrentUserInfo)
 );
 
 AuthRouter.post(
   "/logout",
   middlewares.authenticate,
-  controllerWrapper(controllers.logoutUser)
+  controllerWrapper(AuthController.logoutUser)
 );
 
 AuthRouter.post(
   "/verify",
   middlewares.validateBody(UserDto.resendVerificationEmail),
-  controllerWrapper(controllers.resendVerificationEmail)
+  controllerWrapper(AuthController.resendVerificationEmail)
 );
 
 AuthRouter.get(
   "/verify/:verificationToken",
-  controllerWrapper(controllers.verify)
+  controllerWrapper(AuthController.verify)
 );
 
 AuthRouter.get(
   "/getRefreshToken",
   middlewares.authenticateRefreshToken,
-  controllerWrapper(controllers.refreshToken)
+  controllerWrapper(AuthController.refreshToken)
 );
 
 module.exports = AuthRouter;

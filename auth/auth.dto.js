@@ -15,8 +15,9 @@ const resendVerificationEmail = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
 });
 
-module.exports = {
+const AuthDto = {
   registerUserSchema,
   loginUserSchema,
   resendVerificationEmail,
 };
+module.exports = AuthDto;

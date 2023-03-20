@@ -7,7 +7,7 @@ const resendVerificationEmail = require("./resendVerificationEmail");
 const refreshToken = require("./refreshToken");
 const getCurrentUserInfo = require("./getCurrentUserInfo");
 
-module.exports = {
+const AuthController = {
   registerUser,
   loginUser,
   getCurrentUser,
@@ -17,3 +17,4 @@ module.exports = {
   resendVerificationEmail,
   refreshToken,
 };
+module.exports = AuthController;
