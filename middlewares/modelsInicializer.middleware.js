@@ -17,9 +17,10 @@ function modelsInitializer(modelsData = []) {
       // console.log("cachedModels", companiesCashedModels);
       // !  req.models = cachedModels[companyId];
     } else {
-      const models = modelsData.map(({ create }) => {
+      const models = modelsData.map(({ create, getModelName }) => {
         if (typeof create === "function") return create(companyId);
-        return null;
+
+        return getModelName && getModelName(companyId);
       });
 
       console.log("created models", models);
