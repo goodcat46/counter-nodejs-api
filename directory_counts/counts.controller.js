@@ -72,9 +72,11 @@ async function getAllCounts(req, res) {
   });
 }
 
-module.exports = {
+const CountsController = {
   createCount,
   getAllCounts,
   deleteCountById,
   updateCountById,
 };
+
+module.exports = CountsController;

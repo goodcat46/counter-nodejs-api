@@ -6,36 +6,36 @@ const {
   checkCompanyId,
 } = require("../middlewares");
 const CountDto = require("./count.dto");
-const CountController = require("./counts.controller");
+const CountsController = require("./counts.controller");
 
 const CountsRouter = express.Router();
 
 CountsRouter.use(authenticate);
 CountsRouter.use(checkCompanyId);
 
-CountsRouter.get("/getAll", controllerWrapper(CountController.getAllCounts));
+CountsRouter.get("/getAll", controllerWrapper(CountsController.getAllCounts));
 
 CountsRouter.post(
   "/create",
   validateBody(CountDto.createCountDto),
-  controllerWrapper(CountController.createCount)
+  controllerWrapper(CountsController.createCount)
 );
 
 CountsRouter.delete(
   "/delete/:id",
-  controllerWrapper(CountController.deleteCountById)
+  controllerWrapper(CountsController.deleteCountById)
 );
 
 CountsRouter.patch(
   "/update/:id",
   validateBody(CountDto.updateCountDto),
-  controllerWrapper(CountController.updateCountById)
+  controllerWrapper(CountsController.updateCountById)
 );
 
 CountsRouter.patch(
   "/update/correctCountBalanse:id",
   validateBody(CountDto.correctCountBalanceDto),
-  controllerWrapper(CountController.updateCountById)
+  controllerWrapper(CountsController.updateCountById)
 );
 
 module.exports = CountsRouter;
