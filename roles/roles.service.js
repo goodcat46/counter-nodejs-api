@@ -73,7 +73,7 @@ async function UserCheckByRole({ roleName, actionName, error, companyId }) {
   return { canActive: true };
 }
 
-module.exports = {
+const RolesService = {
   getAllRoles,
   findRoleById,
   findRoleByName,
@@ -84,3 +84,4 @@ module.exports = {
   removeActionsFromRoleById,
   UserCheckByRole,
 };
+module.exports = RolesService;

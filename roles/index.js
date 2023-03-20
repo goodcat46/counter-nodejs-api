@@ -4,10 +4,12 @@ const RolesMessages = require("./roles.messages");
 const RolesRouter = require("./roles.router");
 const RolesService = require("./roles.service");
 
-module.exports = {
+const RolesModule = {
   RoleDto,
   RolesMessages,
   RolesRouter,
   RolesService,
   RoleModel,
 };
+
+module.exports = RolesModule;

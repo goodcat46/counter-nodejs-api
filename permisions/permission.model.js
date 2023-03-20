@@ -3,15 +3,17 @@ const { Schema, model, SchemaTypes, models } = require("mongoose");
 const { AUTH_MODEL_NAME } = require("../auth/auth.constants");
 const { COMPANY_MODEL_NAME } = require("../companies/companies.constants");
 const { RoleModel } = require("../roles");
-
+const permissionsMessages = require("./permissions.messages");
 const {
   PERMISSION_STATUS_ENUM,
-  getPermissionModelName,
   PERMISSIONS_COLLECTION_NAME,
+  PERMISSION_MODEL_NAME,
 } = require("./permissions.constants");
 
-const permissionsMessages = require("./permissions.messages");
-
+const getPermissionModelName = (companyId) =>
+  `${companyId}_${PERMISSION_MODEL_NAME}`;
+const getPermissionCollectionName = (companyId) =>
+  `${companyId}_${PERMISSIONS_COLLECTION_NAME}`;
 const createPermissionSchema = (companyId) =>
   new Schema(
     {
@@ -58,10 +60,12 @@ function createPermissionModel(companyId) {
   return Model;
 }
 
-module.exports = {
+const PermissionModel = {
   create: createPermissionModel,
   getModelName: getPermissionModelName,
-  getCollectionName: () => PERMISSIONS_COLLECTION_NAME,
+  getCollectionName: getPermissionCollectionName,
   createPermissionModel,
   getPermissionModelName,
+  getPermissionCollectionName,
 };
+module.exports = PermissionModel;

@@ -7,9 +7,9 @@ const middlewares = require("./middlewares");
 
 const AuthModule = require("./auth");
 const { CompaniesRouter } = require("./companies");
-const { RolesRouter, RoleModel } = require("./roles");
-const { TransactionsRouter, TransactionModel } = require("./transactions");
-const { PermissionsRouter, PermissionModel } = require("./permisions");
+const RolesModule = require("./roles");
+const TransactionsModule = require("./transactions");
+const PermissionModule = require("./permisions");
 const CountsModule = require("./directory_counts");
 const CategoriesModule = require("./directory_categories");
 const mongoose = require("mongoose");
@@ -27,7 +27,13 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-  middlewares.modelsInitializer([TransactionModel, RoleModel, PermissionModel])
+  middlewares.modelsInitializer([
+    TransactionsModule.TransactionModel,
+    RolesModule.RoleModel,
+    PermissionModule.PermissionModel,
+    CountsModule.CountModel,
+    CategoriesModule.CategoryModel,
+  ])
 );
 app.use((req, _res, next) => {
   console.log("req", { params: req.params, query: req.query, body: req.body });
@@ -47,10 +53,10 @@ app.use("/api/auth", AuthModule.AuthRouter);
 app.use("/api/companies", CompaniesRouter);
 app.use("/api/:companyId/roles", (req, res, next) => {
   console.log({ params: req.params, query: req.query });
-  return RolesRouter(req, res, next);
+  return RolesModule.RolesRouter(req, res, next);
 });
-app.use("/api/:companyId/permissions", PermissionsRouter);
-app.use("/api/:companyId/transactions", TransactionsRouter);
+app.use("/api/:companyId/permissions", PermissionModule.PermissionsRouter);
+app.use("/api/:companyId/transactions", TransactionsModule.TransactionsRouter);
 app.use("/api/:companyId/directories/counts", CountsModule.CountsRouter);
 app.use(
   "/api/:companyId/directories/categories",

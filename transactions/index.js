@@ -6,7 +6,7 @@ const TransactionMessages = require("./transactions.messages");
 const TransactionsConstants = require("./transactions.constants");
 const { transactionsActionsMap, tractionsMap } = require("./transactions.map");
 
-module.exports = {
+const TransactionsModule = {
   TransactionModel,
   TransactionsRouter,
   TransactionsControllers,
@@ -16,3 +16,5 @@ module.exports = {
   transactionsActionsMap,
   tractionsMap,
 };
+
+module.exports = TransactionsModule;

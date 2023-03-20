@@ -5,7 +5,7 @@ const PermissionsRouter = require("./permissions.router");
 const PermissionsService = require("./permissions.service");
 const PermissionsConstants = require("./permissions.constants");
 
-module.exports = {
+const PermissionModule = {
   PermissionDto,
   PermissionsMessages,
   PermissionsRouter,
@@ -13,3 +13,5 @@ module.exports = {
   PermissionsConstants,
   PermissionModel,
 };
+
+module.exports = PermissionModule;

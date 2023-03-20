@@ -52,7 +52,7 @@ async function updatePermissionById({ id, updateData, companyId }) {
   });
 }
 
-module.exports = {
+const PermissionService = {
   getAllPermissions,
   findPermissionById,
   createPermission,
@@ -62,3 +62,5 @@ module.exports = {
   deletePermissionById,
   updatePermissionById,
 };
+
+module.exports = PermissionService;
