@@ -1,29 +1,29 @@
-const AuthService = require("../auth.service");
+// const AuthService = require("../auth.service");
 // const sendSgEmail = require("../../helpers/sendSgEmail");
 
 // const { BASE_URL } = process.env;
 
-async function registerUser(req, res) {
-  const { password, email } = req.body;
+// async function registerUser(req, res) {
+//   const { password, email } = req.body;
 
-  const result = await AuthService.registerUser({ password, email });
+//   const result = await AuthService.registerUser({ password, email });
 
-  // const message = {
-  //   to: email,
-  //   subject: "Email verification",
-  //   html: `<a href="${BASE_URL}/api/users/verify/${result.verificationToken}">Click to verify your email</a>`,
-  // };
+//   // const message = {
+//   //   to: email,
+//   //   subject: "Email verification",
+//   //   html: `<a href="${BASE_URL}/api/users/verify/${result.verificationToken}">Click to verify your email</a>`,
+//   // };
 
-  // await sendSgEmail(message);
+//   // await sendSgEmail(message);
 
-  res.status(201).json({
-    message: "User created successfully",
-    data: {
-      email: result.email,
-      role: result.role,
-    },
-  });
-}
+//   res.status(201).json({
+//     message: "User created successfully",
+//     data: {
+//       email: result.email,
+//       role: result.role,
+//     },
+//   });
+// }
 
 // async function registerUser(req, res) {
 //   const { password, email, role } = req.body;
@@ -60,4 +60,4 @@ async function registerUser(req, res) {
 //   });
 // }
 
-module.exports = registerUser;
+// module.exports = registerUser;
