@@ -3,17 +3,18 @@ const logger = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
+const middlewares = require("./middlewares");
+
 const { AuthRouter } = require("./auth");
+const { CompaniesRouter } = require("./companies");
 const { RolesRouter, RoleModel } = require("./roles");
 const { TransactionsRouter, TransactionModel } = require("./transactions");
-const { CompaniesRouter } = require("./companies");
-const { CountsModule, CategoriesModule } = require("./directories");
 const { PermissionsRouter, PermissionModel } = require("./permisions");
-const {
-  modelsInicializer,
-} = require("./middlewares/inicializeModels.middleware");
+const { CountsRouter } = require("./directory_counts");
+const { CategoriesRouter } = require("./directory_categories");
+const mongoose = require("mongoose");
 
-// console.log(CountsModule);
+// console.log(middlewares);
 
 const app = express();
 
@@ -26,33 +27,39 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-  modelsInicializer([
+  middlewares.modelsInitializer([
     TransactionModel.createTransactionModel,
     RoleModel.createRoleModel,
     PermissionModel.createPermissionModel,
   ])
 );
+app.use((req, _res, next) => {
+  console.log({ params: req.params, query: req.query, body: req.body });
+  console.log({ models: mongoose.modelNames() });
+  next();
+});
 
 // app.use(
 //   "/api/",
 //   express.Router().get("/", (req, res) => {
-//     console.log(req.params);
+//     console.log({ params: req.params, query: req.query, body: req.body });
 //     res.status(200).json({ message: "Hello" });
 //   })
 // );
+
 app.use("/api/auth", AuthRouter);
-app.use("/api/:companyId/roles", RolesRouter);
-app.use("/api/:companyId/transactions", TransactionsRouter);
-app.use("/api/:companyId/companies", CompaniesRouter);
-app.use("/api/:companyId/directories/counts", CountsModule.CountsRouter);
-app.use(
-  "/api/:companyId/directories/categories",
-  CategoriesModule.CategoriesRouter
-);
+app.use("/api/companies", CompaniesRouter);
+app.use("/api/:companyId/roles", (req, res, next) => {
+  console.log({ params: req.params, query: req.query });
+  return RolesRouter(req, res, next);
+});
 app.use("/api/:companyId/permissions", PermissionsRouter);
+app.use("/api/:companyId/transactions", TransactionsRouter);
+app.use("/api/:companyId/directories/counts", CountsRouter);
+app.use("/api/:companyId/directories/categories", CategoriesRouter);
 
 app.use("/api/:companyId/test", function (req, res, next) {
-  console.log("Request Id:", req.params);
+  console.log("Request Id:", req.params.companyId);
   res.status(200).json({
     route: `Request companyId: ${req.params.companyId}`,
     params: req.params.companyId,

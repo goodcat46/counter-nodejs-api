@@ -7,13 +7,13 @@ async function createCompany(req, res) {
   const user = req?.user;
   const { name, descr } = req.body;
 
-  const newCompany = {
+  const newData = {
     name,
-    owner: user?.id,
+    owner: user?._id,
     descr,
   };
 
-  const createdCompany = await CompaniesService.createCompany(newCompany);
+  const createdCompany = await CompaniesService.createCompany({ newData });
 
   if (!createdCompany) {
     throw createError({

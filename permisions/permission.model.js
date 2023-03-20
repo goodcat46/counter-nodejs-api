@@ -45,7 +45,7 @@ const createPermissionSchema = (companyId) =>
     }
   );
 
-const createPermissionModel = (companyId) => {
+function createPermissionModel(companyId) {
   if (models[getPermissionModelName(companyId)]) {
     return models[getPermissionModelName(companyId)];
   }
@@ -56,6 +56,6 @@ const createPermissionModel = (companyId) => {
   );
 
   return Model;
-};
+}
 
 module.exports = { createPermissionModel };

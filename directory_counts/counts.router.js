@@ -1,6 +1,6 @@
 const express = require("express");
-const { controllerWrapper } = require("../../helpers");
-const validateBody = require("../../middlewares/validateBody");
+const { controllerWrapper } = require("../helpers");
+const validateBody = require("../middlewares/validateBody");
 const CountDto = require("./count.dto");
 const CountController = require("./counts.controller");
 

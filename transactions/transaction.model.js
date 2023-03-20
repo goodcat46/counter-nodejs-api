@@ -1,7 +1,7 @@
 const { Schema, model, models } = require("mongoose");
 const { AUTH_MODEL_NAME } = require("../auth/auth.constants");
-const { CountsConstants } = require("../directories/counts");
-const { CategoriesConstants } = require("../directories/categories");
+const { CountsConstants } = require("../directory_counts");
+const { CategoriesConstants } = require("../directory_categories");
 
 const {
   getTransactionModelName,

@@ -1,6 +1,6 @@
 const CategoriesService = require("./categories.service");
 const CategoriesMessages = require("./categories.messages");
-const { createError, HttpStatus } = require("../../helpers");
+const { createError, HttpStatus } = require("../helpers");
 
 async function createCategory(req, res) {
   const newDoc = req.body;

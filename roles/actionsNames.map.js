@@ -1,5 +1,5 @@
 const { transactionsActionsMap, tractionsMap } = require("../transactions");
-const { categoriesActionsMap } = require("../directories/categories");
+const { categoriesActionsMap } = require("../directory_categories");
 
 const apiActions = [
   ...categoriesActionsMap,

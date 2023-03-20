@@ -6,8 +6,8 @@ const CreateError = require("../helpers/createError");
 async function getAllPermissions({ companyId }) {
   const Model = createPermissionModel(companyId);
   return Model.find({ company: companyId })
-    .populate({ path: "user" })
-    .populate({ path: "role" });
+    .populate({ path: "user", select: "_id email createdAt updatedAt" })
+    .populate({ path: "role", select: "_id name actions" });
 }
 async function createPermission({ newPermission, companyId }) {
   const Model = createPermissionModel(companyId);
@@ -17,7 +17,6 @@ async function createPermission({ newPermission, companyId }) {
   const oldPerm = await Model.findOne({ company: companyId, user, role });
 
   if (oldPerm) {
-    console.log("old permission", oldPerm);
     throw CreateError({
       status: HttpStatus.CONFLICT,
       message: permissionsMessages.ALREADY_EXIST,

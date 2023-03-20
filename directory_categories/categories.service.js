@@ -1,5 +1,5 @@
 const CategoryModel = require("./category.model");
-const { createError } = require("../../helpers");
+const { createError } = require("../helpers");
 const { CategoriesMessages } = require("./categories.messages");
 
 async function getAllCategories() {

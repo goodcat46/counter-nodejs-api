@@ -4,6 +4,7 @@ const UserCheck = require("./UserCheck.middleware");
 const authenticate = require("./authenticate");
 const authenticateRefreshToken = require("./authenticateRefreshToken");
 const upload = require("./upload");
+const modelsInitializer = require("./modelsInicializer.middleware");
 
 module.exports = {
   validateBody,
@@ -12,4 +13,5 @@ module.exports = {
   upload,
   authenticate,
   checkCompanyId,
+  modelsInitializer,
 };

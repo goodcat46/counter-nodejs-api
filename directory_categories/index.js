@@ -6,6 +6,7 @@ const CategoriesConstants = require("./categories.constants");
 const CategoriesService = require("./categories.service");
 const CategoriesRouter = require("./categories.router");
 const categoriesActionsMap = require("./categories.map");
+
 module.exports = {
   CategoryModel,
   CategoriesMessages,

@@ -1,6 +1,6 @@
 const CountsService = require("./counts.service");
 const CountsMessages = require("./counts.messages");
-const { createError, HttpStatus } = require("../../helpers");
+const { createError, HttpStatus } = require("../helpers");
 
 async function createCount(req, res) {
   const newCount = req.body;

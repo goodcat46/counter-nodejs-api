@@ -1,5 +1,5 @@
 const CountModel = require("./count.model");
-const { createError } = require("../../helpers");
+const { createError } = require("../helpers");
 
 async function getAllCounts() {
   return CountModel.find().populate("owner").exec();
