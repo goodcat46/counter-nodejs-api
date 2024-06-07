@@ -16,6 +16,11 @@ async function findRoleByName({ name, companyId }) {
 
   return Model.findOne({ name });
 }
+async function findRoleByLabel({ label, companyId }) {
+  const Model = RoleModel.create(companyId);
+
+  return Model.findOne({ label });
+}
 async function createRole({ newData, companyId }) {
   const Model = RoleModel.create(companyId);
   const { name } = newData;
@@ -77,6 +82,7 @@ const RolesService = {
   getAllRoles,
   findRoleById,
   findRoleByName,
+  findRoleByLabel,
   createRole,
   updateRoleById,
   deleteRoleById,

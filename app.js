@@ -66,8 +66,8 @@ app.use(
 app.use("/api/:companyId/test", function (req, res, next) {
   console.log("Request Id:", req.params.companyId);
   res.status(200).json({
-    route: `Request companyId: ${req.params.companyId}`,
-    params: req.params.companyId,
+    memessage: `Request companyId: ${req.params.companyId}`,
+    params: req.params,
   });
   next();
 });

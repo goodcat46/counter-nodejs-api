@@ -25,8 +25,8 @@ const createTransactionSchema = (companyId) =>
         ref: AUTH_MODEL_NAME,
       },
       transactionDate: {
-        type: Date,
-        default: new Date(),
+        type: Number,
+        default: new Date().valueOf(),
       },
       type: {
         type: String,
